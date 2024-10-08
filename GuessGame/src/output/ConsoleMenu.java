@@ -2,133 +2,134 @@ package output;
 
 import java.util.Scanner;
 import java.io.Console;
+import java.util.Random;
 public class ConsoleMenu {
-       
-    public void execute()
-    {
-        //change 
-        
-        //init 2 dim array
 
+    static int[][] twoDim = null;
 
-        //print single menu into console
+    public void execute() {
 
+        // init 2 dim array
+
+        // print single menu into console
 
         // start game loop
 
-        //keep track of the rows
+        // keep track of the rows
 
         // output cursor
 
+        // inital output
+        output();
 
-
-
-        printmenu();
-        
-        
-        
-        
-        
         Scanner input = new Scanner(System.in);
-        
-        
-        //Scanner saveInput = null; 
-        int selection = 1;
+
+        twoDim = new int[10][100];
+
+        // Scanner saveInput = null;
+        int selection = -1;
         boolean exit = false;
-        int currentposition = 10;
         String pwdString = null;
-        while(exit!=true)
-        {
-            
-            try  {
-              
-               pwdString = new String(System.console().readPassword());  //console readPassword wont show output on screen
-              selection = Integer.parseInt(pwdString);   //hope user entered interger
+        while (exit != true) {
 
-              //System.out.println(testB);
-            
-              if(selection == 3) 
-              {
+            try {
 
-                exit = true;
-                //on exit we can clear console. 
-                //https://stackoverflow.com/questions/10241217/how-to-clear-console-in-java
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-                
-            }
-                moveup(--currentposition);
+                pwdString = new String(System.console().readPassword()); // console readPassword wont show output on                                                          // screen
+                selection = Integer.parseInt(pwdString); // hope user entered interger, if not exception catch , but user will be back here
 
+                if (selection == 3) {
+
+                    exit = true;
+                    // on exit we can clear console.
+                    // https://stackoverflow.com/questions/10241217/how-to-clear-console-in-java
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+
+                }
+
+                if (selection == 4) {
+                    move();
+                }
+
+            } catch (Exception e) {
+                System.out.print("\u001B[A"); // we moved next line, bringing coursor back
             }
-            catch (Exception e)
-            {
-               System.out.print("\u001B[A");  // we moved next line, bringing coursor back
-            }
-            
-            
+
         }
-        
-    input.close();    
+
+        input.close();
     }
 
-    private void printmenu()
-    {
-      
-      
-        // initial single menu
-        //game loop
+   
+    // trying bit different approach how to output data on console, instead creating new lines on each selection of user
+    // program tries to reprint  existing print from top, by cursor manipulation. This way it creates illusion of rendering. 
+    // plan is move cursor up and output updaed array ( updated information somehwere in the
+    // middle) and  after that landing cursor back to original place. 
+   
 
-        //FOR TESTING
+    private void output() {
+        Random rand = new Random();
+        int random = rand.nextInt(9);
+        drawArray(twoDim, random);
+        printMenu();
 
-        //create signle 2 dim array
-        int[][] twoDim = new int[10][100];
-              
-        for(int row = 0; row<10; row ++ )
-        {
-            for(int column = 0; column<100; column ++ )
-            {
-           //arrays are stored as objects in heap, we can access them during game loop and modify values. 
+    }
 
-                twoDim[row][column] = 0;
+    private void printMenu() {
+
+        System.out.println("#########################");
+
+        System.out.println("[1] new game");
+        System.out.println("[4] test app");  //later change
+        System.out.println("[3] exit");
+
+        System.out.println("#########################");
+
+    }
+
+    private void drawArray(int[][] twoDim, int value) {
+        // arrays are stored as objects in heap, we can access them during game loop and
+        // modify values.
+
+        if (twoDim == null) {
+            twoDim = new int[10][100];
+            for (int row = 0; row < 10; row++) {
+                for (int column = 0; column < 100; column++) {
+
+                    twoDim[row][column] = 0;
+                }
+
             }
-    
+        } else
+
+        {
+            for (int column = 0; column < 100; column++) {
+
+                twoDim[5][column] = value;
+
+            }
+
         }
 
-        for(int row = 0; row<10; row ++ )
-        {
-            for(int column = 0; column<100; column ++ )
-            {
-         //idea is that instead of 3 textual line menu , menu will be linked with array objects. 
-         // and we can access to menu elements by moving cursor up and down
-         //yet not 100% sure, maybe removign this approach later
+        // final output
+        for (int row = 0; row < 10; row++) {
+            for (int column = 0; column < 100; column++) {
                 System.out.print(twoDim[row][column]);
-           
             }
-    
+
             System.out.println("");
         }
 
+    }
 
+    // this function is called when we want updated our console screen
+    private void move() {
+        // for reference A cursor up, B down, C and D right/left
+        // we are using 15 lines + 1 our input
+        for (int k = 0; k < 16; k++)
+            System.out.print("\u001B[A");
+        output();
 
-            System.out.println("#########################");
-
-                System.out.println("[1] new game");
-                System.out.println("[2] see score");
-                System.out.println("[3] exit");
-                
-            System.out.println("#########################");        
-    
-            
-        }
-
-    private void moveup(int i) {
-       // A cursor up, B down, C and D right/left
-
-        //just for testing
-        //later count max how much you can go up or down. Also shoudl be generic function  - like move, not moveup or movedown
-
-       for(int k=0; k<2;k++)
-        System.out.print("\u001B[A");   
     }
 
 }
