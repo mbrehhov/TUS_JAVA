@@ -1,5 +1,6 @@
 package output;
 
+import data.Quiz;
 import java.util.Random;
 
 public class ConsoleMenu {
@@ -7,6 +8,9 @@ public class ConsoleMenu {
     static String[][] twoDim = null;
 
     public void execute() {
+        int questionsLeft = 10;
+        boolean questionOpen = true;
+        Quiz quiz = new Quiz();
 
         output();
 
@@ -20,6 +24,13 @@ public class ConsoleMenu {
                 selection = (new String(System.console().readPassword()).toLowerCase()).charAt(0); 
                 
                 switch (selection) {
+                    case '1' -> {
+                        quiz.read();
+                        
+                        questionsLeft = 10;
+                        questionOpen = true;
+                    }
+
                     case '3' -> {
                         exit = true;
                         // on exit we can clear console.
@@ -28,6 +39,8 @@ public class ConsoleMenu {
                         System.out.flush();
                     }
                     case '4' -> move();
+                 
+                 // answers for quiz
                     case 'a' -> {
                         String data = "selected A";
                         move(data);
