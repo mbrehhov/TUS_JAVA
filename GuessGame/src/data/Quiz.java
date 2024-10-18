@@ -53,9 +53,29 @@ public class Quiz implements  Imainfunct{
     }
 
     @Override
-    public String output(int linenr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'output'");
+    public String options(int linenr) {
+        String line = "None";
+        String str = "None";
+        try {
+            RandomAccessFile file = Tools.getInstance().getJavaOptions();
+		//	file.getChannel();
+            file.seek(0);
+            
+            int counter = 0;
+            while ((str = file.readLine()) != null) {
+			
+                counter++;
+                if(counter == linenr)
+                {
+                    line = str;
+                    break;
+                }
+        	}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+      return line; 
     }
 
     @Override

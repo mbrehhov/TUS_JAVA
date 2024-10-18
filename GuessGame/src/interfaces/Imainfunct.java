@@ -6,7 +6,7 @@ public interface Imainfunct {
 
     int verify(int linenr);
 
-    String output(int linenr);
+    String options(int linenr);
 
     int score(boolean correctness);
 

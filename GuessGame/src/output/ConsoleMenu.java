@@ -25,9 +25,11 @@ public class ConsoleMenu {
                 
                 switch (selection) {
                     case '1' -> {
-                       String newQuestion =  quiz.read();
-                     //  move(" ");
-                       move(newQuestion);
+                       String question =  quiz.read();
+                       int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
+                       String options =  quiz.options(linenr);
+
+                       move(question,options);
                         questionsLeft = 10;
                         questionOpen = true;
                     }
@@ -86,18 +88,23 @@ public class ConsoleMenu {
     private void output() {
         Random rand = new Random();
         int random = rand.nextInt(9);
-        drawArray(random, "First Testing Question " + random);
+        drawArray(random, "First Testing Question " + random,null);
         printMenu();
 
     }
 
     private void output(String data) {
         int random = 1;
-        drawArray(random, data + random);
+        drawArray(random, data + random,null);
         printMenu();
 
     }
+    private void output(String question, String options) {
+        int random = 1;
+        drawArray(random, question, options);
+        printMenu();
 
+    }
     private void printMenu() {
 
         System.out.println("#########################");
@@ -110,7 +117,19 @@ public class ConsoleMenu {
 
     }
 
-    private void drawArray(int value, String newQuestion) {
+    private void printQuestionMenu() {
+
+        System.out.println("#########################");
+
+        System.out.println();
+        System.out.println(); 
+        System.out.println("[2] leave");
+
+        System.out.println("#########################");
+
+    }
+
+    private void drawArray(int value, String questions, String options) {
         // arrays are stored as objects in heap, we can access them during game loop and
         // modify values.
 
@@ -126,10 +145,32 @@ public class ConsoleMenu {
 
         {
 
-            if (newQuestion != null)
-                twoDim[4][1] = newQuestion;
+            if (questions != null)
+                twoDim[3][1] = questions;
 
-        }
+
+              
+                if (options != null)
+                {
+                    String[] splittingOptions = options.split("#");
+                    for(int k = 10; k <=40 ;k++)
+                    {
+                        twoDim[4][k] = "_";
+
+                        twoDim[9][k] ="_";
+                    }
+                    twoDim[5][13] =splittingOptions[1];
+                    twoDim[6][13] =splittingOptions[2];
+                    twoDim[7][13] =splittingOptions[3];
+                    twoDim[8][13] =splittingOptions[4];
+                    
+                    
+      
+                }
+               
+            }
+       
+
 
         // final output
         for (int row = 0; row < 10; row++) {
@@ -152,6 +193,11 @@ public class ConsoleMenu {
     private void move(String data) {
         moveCursorBeginning();
         output(data);
+
+    }
+    private void move(String question, String options) {
+        moveCursorBeginning();
+        output(question,options);
 
     }
     // for reference A cursor up, B down, C and D right/left
