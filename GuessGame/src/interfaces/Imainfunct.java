@@ -2,7 +2,7 @@ package interfaces;
 
 public interface Imainfunct {
 
-    void read();
+    String read();
 
     int verify(int linenr);
 

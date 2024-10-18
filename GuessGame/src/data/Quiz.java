@@ -1,8 +1,12 @@
 package data;
 
+
 import interfaces.Imainfunct;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Random;
+
+
 
 public class Quiz implements  Imainfunct{
 
@@ -11,22 +15,34 @@ public class Quiz implements  Imainfunct{
 //to access the same file repeateadly. 
 
     @Override
-    public void read() {
-        String filepath =  System.getProperty("user.dir") + "/java/questions_java";
-
+    public String read() {
+        String line = "None";
+        String str = "None";
         try {
-			RandomAccessFile file = new RandomAccessFile(filepath, "r");
-			String str;
+            RandomAccessFile file = Tools.getInstance().getJavaQuestions();
+		//	file.getChannel();
+            file.seek(0);
+            
+            Random rand = new Random();
+            int maxLines = 3; 
+            int n = rand.nextInt(maxLines); ///start from 0 not including max, so need to increment n 
+            n++;
+            int counter = 0;
+            while ((str = file.readLine()) != null) {
+				
 
-			while ((str = file.readLine()) != null) {
-				System.out.println(str);
-			}
+                counter++;
+                if(counter == n)
+                {
+                    line = str;
+                    break;
+                }
+        	}
 
-			file.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        
+      return line;  
 
     }
 

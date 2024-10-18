@@ -25,8 +25,9 @@ public class ConsoleMenu {
                 
                 switch (selection) {
                     case '1' -> {
-                        quiz.read();
-                        
+                       String newQuestion =  quiz.read();
+                     //  move(" ");
+                       move(newQuestion);
                         questionsLeft = 10;
                         questionOpen = true;
                     }
@@ -42,7 +43,7 @@ public class ConsoleMenu {
                  
                  // answers for quiz
                     case 'a' -> {
-                        String data = "selected A";
+                        String data = "selected Adddddddddddddddddddddddddddddddddddddddddddddddds";
                         move(data);
                     }
                     case 'b' -> {
@@ -114,9 +115,9 @@ public class ConsoleMenu {
         // modify values.
 
         if (twoDim == null) {
-            twoDim = new String[10][100];
+            twoDim = new String[10][50];
             for (int row = 0; row < 10; row++) {
-                for (int column = 0; column < 100; column++) {
+                for (int column = 0; column < 50; column++) {
                     twoDim[row][column] = " ";
                 }
 
@@ -126,13 +127,13 @@ public class ConsoleMenu {
         {
 
             if (newQuestion != null)
-                twoDim[4][9] = newQuestion;
+                twoDim[4][1] = newQuestion;
 
         }
 
         // final output
         for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 100; column++) {
+            for (int column = 0; column < 50; column++) {
                 System.out.print(twoDim[row][column]);
             }
 
