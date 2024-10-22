@@ -33,6 +33,12 @@ public class ConsoleMenu {
                         questionsLeft = 10;
                         questionOpen = true;
                     }
+                    case '2' -> {
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
+                        move(true);
+
+                    }
 
                     case '3' -> {
                         exit = true;
@@ -88,21 +94,27 @@ public class ConsoleMenu {
     private void output() {
         Random rand = new Random();
         int random = rand.nextInt(9);
-        drawArray(random, "First Testing Question " + random,null);
+        drawArray(random, "First Testing Question " + random,null,false);
         printMenu();
 
     }
+    private void output(boolean reinit) {
+        int random = 1;
+        drawArray(random, null ,null,reinit);
+        printMenu();
 
+    }
     private void output(String data) {
         int random = 1;
-        drawArray(random, data + random,null);
+        drawArray(random, data + random,null,false);
         printMenu();
 
     }
     private void output(String question, String options) {
         int random = 1;
-        drawArray(random, question, options);
-        printMenu();
+        drawArray(random, question, options,false);
+        //printMenu();
+        printQuestionMenu();
 
     }
     private void printMenu() {
@@ -119,19 +131,20 @@ public class ConsoleMenu {
 
     private void printQuestionMenu() {
 
-        System.out.println("#########################");
+        System.out.println("                         ");
 
-        System.out.println();
-        System.out.println(); 
+        System.out.println("                         ");
+
+        System.out.println("                         ");
         System.out.println("[2] leave");
 
         System.out.println("#########################");
 
     }
 
-    private void drawArray(int value, String questions, String options) {
-        // arrays are stored as objects in heap, we can access them during game loop and
-        // modify values.
+    private void drawArray(int value, String questions, String options,boolean nullDim) {
+
+        if (nullDim) twoDim = null;
 
         if (twoDim == null) {
             twoDim = new String[10][50];
@@ -150,23 +163,23 @@ public class ConsoleMenu {
 
 
               
-                if (options != null)
+            if (options != null)
+            {
+                String[] splittingOptions = options.split("#");
+                for(int k = 10; k <=40 ;k++)
                 {
-                    String[] splittingOptions = options.split("#");
-                    for(int k = 10; k <=40 ;k++)
-                    {
-                        twoDim[4][k] = "_";
+                    twoDim[4][k] = "_";
 
-                        twoDim[9][k] ="_";
-                    }
-                    twoDim[5][13] =splittingOptions[1];
-                    twoDim[6][13] =splittingOptions[2];
-                    twoDim[7][13] =splittingOptions[3];
-                    twoDim[8][13] =splittingOptions[4];
-                    
-                    
-      
+                    twoDim[9][k] ="_";
                 }
+                twoDim[5][13] =splittingOptions[1];
+                twoDim[6][13] =splittingOptions[2];
+                twoDim[7][13] =splittingOptions[3];
+                twoDim[8][13] =splittingOptions[4];
+                
+                
+    
+            }
                
             }
        
@@ -187,6 +200,11 @@ public class ConsoleMenu {
     private void move() {
         moveCursorBeginning();
         output();
+
+    }
+    private void move(boolean reinitArray) {
+        moveCursorBeginning();
+        output(reinitArray);
 
     }
 
