@@ -1,6 +1,8 @@
 package output;
 
 import data.Quiz;
+import data.Timing;
+import data.Tools;
 import java.util.Random;
 
 public class ConsoleMenu {
@@ -8,6 +10,8 @@ public class ConsoleMenu {
     static String[][] twoDim = null;
 
     public void execute() {
+        Timing time = null;
+        Thread genericT = null; 
         int questionsLeft = 10;
         boolean questionOpen = true;
         Quiz quiz = new Quiz();
@@ -28,20 +32,31 @@ public class ConsoleMenu {
                        String question =  quiz.read();
                        int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
                        String options =  quiz.options(linenr);
-
+                    
                        move(question,options);
                         questionsLeft = 10;
                         questionOpen = true;
+                        time = new Timing(this);
+                        
+                        genericT = new Thread(time);
+                        genericT.start();
+
                     }
                     case '2' -> {
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
                         move(true);
+                        time.stopLoop();
+                        genericT.join();
+                        time = null;
 
                     }
 
                     case '3' -> {
                         exit = true;
+                        time.stopLoop();
+                        genericT.join();
+                        time = null;
                         // on exit we can clear console.
                         // https://stackoverflow.com/questions/10241217/how-to-clear-console-in-java
                         System.out.print("\033[H\033[2J");
@@ -94,25 +109,33 @@ public class ConsoleMenu {
     private void output() {
         Random rand = new Random();
         int random = rand.nextInt(9);
-        drawArray(random, "First Testing Question " + random,null,false);
+        drawArray(random, "First Testing Question " + random,null,null,false);
         printMenu();
 
     }
     private void output(boolean reinit) {
         int random = 1;
-        drawArray(random, null ,null,reinit);
+        drawArray(random, null ,null,null,reinit);
         printMenu();
 
     }
     private void output(String data) {
         int random = 1;
-        drawArray(random, data + random,null,false);
+        drawArray(random, data + random,null,null,false);
         printMenu();
+
+    }
+
+    private void outputTime(String time) {
+        int random = 1;
+        drawArray(random, null, null,time,false);
+        //printMenu();
+        printQuestionMenu();
 
     }
     private void output(String question, String options) {
         int random = 1;
-        drawArray(random, question, options,false);
+        drawArray(random, question, options,null,false);
         //printMenu();
         printQuestionMenu();
 
@@ -142,7 +165,7 @@ public class ConsoleMenu {
 
     }
 
-    private void drawArray(int value, String questions, String options,boolean nullDim) {
+    private void drawArray(int value, String questions, String options,String timing, boolean nullDim) {
 
         if (nullDim) twoDim = null;
 
@@ -158,6 +181,11 @@ public class ConsoleMenu {
 
         {
 
+            if (timing!=null)
+            {
+                twoDim[2][1] = timing;
+
+            }
             if (questions != null)
                 twoDim[3][1] = questions;
 
@@ -186,13 +214,36 @@ public class ConsoleMenu {
 
 
         // final output
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 50; column++) {
-                System.out.print(twoDim[row][column]);
+        //check with previous state and see if differ
+        
+        if(Tools.getInstance().getSnapshot()!=null)
+        {
+            String[][] prevstate = Tools.getInstance().getSnapshot();
+            for (int row = 0; row < 10; row++) {
+                for (int column = 0; column < 50; column++) {
+                   
+                   if(prevstate[row][column].equals(twoDim[row][column]))
+                    System.out.print(twoDim[row][column]);
+                }
+    
+                System.out.println("");
             }
-
-            System.out.println("");
+    
         }
+        else
+        {
+
+            for (int row = 0; row < 10; row++) {
+                for (int column = 0; column < 50; column++) {
+                    System.out.print(twoDim[row][column]);
+                }
+    
+                System.out.println("");
+            }
+    
+        }
+        //save state
+        Tools.getInstance().snapshot(twoDim);
 
     }
 
@@ -207,7 +258,11 @@ public class ConsoleMenu {
         output(reinitArray);
 
     }
-
+    public void moveTime(String time)
+    {
+        moveCursorBeginning();
+        outputTime(time);
+    }
     private void move(String data) {
         moveCursorBeginning();
         output(data);

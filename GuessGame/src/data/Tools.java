@@ -8,8 +8,14 @@ public class Tools {
     private static RandomAccessFile javaQuestions;
     private static RandomAccessFile javaAnswers;
     private static RandomAccessFile javaOptions;
+    private String[][] prevstate = null;
 
-
+    public void snapshot(String[][] prevState){
+        prevstate = prevState;
+    }
+    public String[][] getSnapshot(){
+        return prevstate;
+    }
     private Tools()  {
 
         //file initilized during building of singleton and those only once initialized  

@@ -16,34 +16,8 @@ public class Quiz implements  Imainfunct{
 
     @Override
     public String read() {
-        String line = "None";
-        String str = "None";
-        try {
-            RandomAccessFile file = Tools.getInstance().getJavaQuestions();
-		//	file.getChannel();
-            file.seek(0);
-            
-            Random rand = new Random();
-            int maxLines = 3; 
-            int n = rand.nextInt(maxLines); ///start from 0 not including max, so need to increment n 
-            n++;
-            int counter = 0;
-            while ((str = file.readLine()) != null) {
-				
-
-                counter++;
-                if(counter == n)
-                {
-                    line = str;
-                    break;
-                }
-        	}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-      return line;  
-
+        
+        return readLine(-1, Tools.getInstance().getJavaQuestions());        
     }
 
     @Override
@@ -54,28 +28,39 @@ public class Quiz implements  Imainfunct{
 
     @Override
     public String options(int linenr) {
-        String line = "None";
-        String str = "None";
+      return readLine(linenr, Tools.getInstance().getJavaOptions()); 
+    }
+
+    private String readLine(int linenr, RandomAccessFile file) {
+        String currentLine = null;
+        // if line is -1 read random line
+        // else read line from given file
         try {
-            RandomAccessFile file = Tools.getInstance().getJavaOptions();
-		//	file.getChannel();
+
+            if (linenr == -1) {
+
+                Random rand = new Random();
+                int maxLines = 3;
+                int n = rand.nextInt(maxLines); ///start from 0 not including max, so need to increment n 
+                linenr = ++n;
+            }
+
             file.seek(0);
-            
+
             int counter = 0;
-            while ((str = file.readLine()) != null) {
-			
+            while ((currentLine = file.readLine()) != null) {
+
                 counter++;
-                if(counter == linenr)
-                {
-                    line = str;
+                if (counter == linenr) {
                     break;
                 }
-        	}
+            }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-      return line; 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return currentLine;
     }
 
     @Override
