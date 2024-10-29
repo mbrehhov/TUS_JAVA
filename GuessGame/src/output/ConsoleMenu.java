@@ -19,7 +19,7 @@ public class ConsoleMenu {
         Thread genericT = null; 
         int questionsLeft = 10;
         boolean questionOpen = true;
-        Quiz quiz = new Quiz();
+         
 
         output();
 
@@ -34,11 +34,9 @@ public class ConsoleMenu {
                 
                 switch (selection) {
                     case '1' -> {
-                       String question =  quiz.read();
-                       int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
-                       String options =  quiz.options(linenr);
-                    
-                       move(question,options);
+
+                        getQuestionOption(new Quiz());
+                      
                         questionsLeft = 10;
                         questionOpen = true;
                         time = new Timing(this);
@@ -107,6 +105,14 @@ public class ConsoleMenu {
     // plan is move cursor up and output updaed array ( updated information
     // somehwere in the
     // middle) and after that landing cursor back to original place.
+
+    public void getQuestionOption(Quiz quiz) {
+                       String question =  quiz.read();
+                       int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
+                       String options =  quiz.options(linenr);
+                    
+                       move(question,options);
+    }
 
     private void returnCursorOnePostion() {
         System.out.print("\u001B[A"); // we moved next line, bringing coursor back
@@ -240,7 +246,7 @@ public class ConsoleMenu {
                     }
                      else
                      {
-                           System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
+                          System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
                            
                        
                      }
