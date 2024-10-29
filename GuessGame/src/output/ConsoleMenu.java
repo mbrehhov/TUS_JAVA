@@ -3,13 +3,18 @@ package output;
 import data.Quiz;
 import data.Timing;
 import data.Tools;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ConsoleMenu {
 
     static String[][] twoDim = null;
-
+    static HashMap<String, String> twoDimValues = new HashMap<String, String>();
+    private int rows = 15;
+    private int columns = 50;
+    
     public void execute() {
+
         Timing time = null;
         Thread genericT = null; 
         int questionsLeft = 10;
@@ -45,7 +50,8 @@ public class ConsoleMenu {
                     case '2' -> {
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
-                        move(true);
+                        output();
+
                         time.stopLoop();
                         genericT.join();
                         time = null;
@@ -107,22 +113,24 @@ public class ConsoleMenu {
     }
 
     private void output() {
+        output(true);
         Random rand = new Random();
         int random = rand.nextInt(9);
-        drawArray(random, "First Testing Question " + random,null,null,false);
         printMenu();
 
+        drawArray(random, "OOP Asingnment \nstudent nr. 90903223A" + random,null,null,false);
+     
     }
     private void output(boolean reinit) {
         int random = 1;
         drawArray(random, null ,null,null,reinit);
-        printMenu();
 
     }
     private void output(String data) {
         int random = 1;
-        drawArray(random, data + random,null,null,false);
         printMenu();
+
+        drawArray(random, data + random,null,null,false);
 
     }
 
@@ -142,27 +150,21 @@ public class ConsoleMenu {
     }
     private void printMenu() {
 
-        System.out.println("#########################");
-
-        System.out.println("[1] new game");
-        System.out.println("[4] test app"); // later change
-        System.out.println("[3] exit");
-
-        System.out.println("#########################");
-
+        twoDim[10][1] =  "#########################";
+        twoDim[11][1] =  "[1] new game";
+        twoDim[12][1] =  "[4] test app";
+        twoDim[13][1] =  "[3] exit";
+        twoDim[14][1] =  "#########################";
     }
 
     private void printQuestionMenu() {
 
-        System.out.println("                         ");
-
-        System.out.println("                         ");
-
-        System.out.println("                         ");
-        System.out.println("[2] leave");
-
-        System.out.println("#########################");
-
+        twoDim[10][1] =  "                         ";
+        twoDim[11][1] =  "             ";
+        twoDim[12][1] =  "             ";
+        twoDim[13][1] =  "[2] leave";
+        twoDim[14][1] =  "#########################";
+        
     }
 
     private void drawArray(int value, String questions, String options,String timing, boolean nullDim) {
@@ -170,9 +172,9 @@ public class ConsoleMenu {
         if (nullDim) twoDim = null;
 
         if (twoDim == null) {
-            twoDim = new String[10][50];
-            for (int row = 0; row < 10; row++) {
-                for (int column = 0; column < 50; column++) {
+            twoDim = new String[rows][columns];
+            for (int row = 0; row < rows; row++) {
+                for (int column = 0; column < columns; column++) {
                     twoDim[row][column] = " ";
                 }
 
@@ -183,7 +185,9 @@ public class ConsoleMenu {
 
             if (timing!=null)
             {
-                twoDim[2][1] = timing;
+                twoDim[2][1] = "Time:";
+                twoDim[2][2] = timing;
+                
 
             }
             if (questions != null)
@@ -215,36 +219,41 @@ public class ConsoleMenu {
 
         // final output
         //check with previous state and see if differ
-        
-        if(Tools.getInstance().getSnapshot()!=null)
+        //idea is to try to avoid unnececsarry prints...
+        //becouse copyes 2 dim arrays each time is sort of resrouce heavy..
+        //better to use some sort of hashmap that record value only.. like string  to string ("1-1" -> "value")
+
+        //if(Tools.getInstance().getSnapshot()!=null)
         {
-            String[][] prevstate = Tools.getInstance().getSnapshot();
-            for (int row = 0; row < 10; row++) {
-                for (int column = 0; column < 50; column++) {
+            //String[][] prevstate = Tools.getInstance().getSnapshot();
+            for (int row = 0; row < rows; row++) {
+                for (int column = 0; column < columns; column++) {
                    
-                   if(prevstate[row][column].equals(twoDim[row][column]))
-                    System.out.print(twoDim[row][column]);
+               
+                    if(twoDimValues.get(String.valueOf(row)+String.valueOf(column))==null||!twoDimValues.get(String.valueOf(row)+String.valueOf(column)).equals(twoDim[row][column]))
+                    {
+                       twoDimValues.put((String.valueOf(row)+String.valueOf(column)),twoDim[row][column]);
+                       System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
+                       
+                      // System.out.print("differe row" +row + " differ column" + column);
+                           // System.out.print("*");
+                    }
+                     else
+                     {
+                           System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
+                           
+                       
+                     }
+                   
+
+  
                 }
-    
+               
                 System.out.println("");
             }
     
         }
-        else
-        {
-
-            for (int row = 0; row < 10; row++) {
-                for (int column = 0; column < 50; column++) {
-                    System.out.print(twoDim[row][column]);
-                }
-    
-                System.out.println("");
-            }
-    
-        }
-        //save state
-        Tools.getInstance().snapshot(twoDim);
-
+        
     }
 
     // this function is called when we want updated our console screen
@@ -276,8 +285,8 @@ public class ConsoleMenu {
     // for reference A cursor up, B down, C and D right/left
     // we are using 15 lines + 1 our input
 
-    private void moveCursorBeginning() {
-        for (int k = 0; k < 16; k++)
+    synchronized private void moveCursorBeginning() {
+        for (int k = 0; k < 15; k++)
             System.out.print("\u001B[A");
     }
 
