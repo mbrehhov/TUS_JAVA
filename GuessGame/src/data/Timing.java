@@ -34,6 +34,7 @@ public class Timing implements Runnable {
 
                 if (time >= 15) {
                     time = 0;
+                    Tools.getInstance().getGameStat().setLives(Tools.getInstance().getGameStat().getLives()-1);
                     cm.getQuestionOption(new Quiz());
                 }
 

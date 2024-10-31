@@ -1,6 +1,7 @@
 package output;
 
 import data.Quiz;
+import data.Stats;
 import data.Timing;
 import data.Tools;
 import java.util.HashMap;
@@ -12,15 +13,12 @@ public class ConsoleMenu {
     static HashMap<String, String> twoDimValues = new HashMap<String, String>();
     private int rows = 15;
     private int columns = 50;
-    
+
     public void execute() {
 
         Timing time = null;
         Thread genericT = null; 
-        int questionsLeft = 10;
-        boolean questionOpen = true;
-         
-
+       
         output();
 
         // Scanner saveInput = null;
@@ -34,15 +32,22 @@ public class ConsoleMenu {
                 
                 switch (selection) {
                     case '1' -> {
-
-                        getQuestionOption(new Quiz());
+                        //starting new game 
+                        Stats stats = Tools.getInstance().getGameStat();
+                         
+                        if (stats==null || stats.isQuestionsEnabled() ==false )
+                        {
+                            Tools.getInstance().setGameStat(new Stats());
+                            getQuestionOption(new Quiz());
                       
-                        questionsLeft = 10;
-                        questionOpen = true;
-                        time = new Timing(this);
-                        
-                        genericT = new Thread(time);
-                        genericT.start();
+                            time = new Timing(this);
+                            
+                            genericT = new Thread(time);
+                            genericT.start();
+                            
+
+                        }
+     
 
                     }
                     case '2' -> {
@@ -53,6 +58,10 @@ public class ConsoleMenu {
                         time.stopLoop();
                         genericT.join();
                         time = null;
+                        //print stats into array or somewhere
+                        // null stats
+                        Tools.getInstance().setGameStat(null);
+                        //maybe need to disable new questions..  I'll leave this option for future usecase. 
 
                     }
 
@@ -149,9 +158,10 @@ public class ConsoleMenu {
     }
     private void output(String question, String options) {
         int random = 1;
+        printQuestionMenu();
         drawArray(random, question, options,null,false);
         //printMenu();
-        printQuestionMenu();
+        
 
     }
     private void printMenu() {
@@ -188,6 +198,18 @@ public class ConsoleMenu {
         } else
 
         {
+
+            //draw hearts
+            if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().isQuestionsEnabled())
+            {
+                String hearts = "";
+                for(int i = 0; i<Tools.getInstance().getGameStat().getLives(); i++)
+                {
+                    hearts += "\u2665";
+                }
+                twoDim[1][3] = hearts;
+            }
+          
 
             if (timing!=null)
             {
