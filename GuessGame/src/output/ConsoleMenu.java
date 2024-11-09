@@ -35,11 +35,12 @@ public class ConsoleMenu {
                         //starting new game 
                         Stats stats = Tools.getInstance().getGameStat();
                          
-                        if (stats==null || stats.isQuestionsEnabled() ==false )
+                        if (stats==null || stats.isQuestionsEnabled())
                         {
                             Tools.getInstance().setGameStat(new Stats());
+                            Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             getQuestionOption(new Quiz());
-                      
+                            
                             time = new Timing(this);
                             
                             genericT = new Thread(time);
@@ -61,6 +62,7 @@ public class ConsoleMenu {
                         //print stats into array or somewhere
                         // null stats
                         Tools.getInstance().setGameStat(null);
+                        
                         //maybe need to disable new questions..  I'll leave this option for future usecase. 
 
                     }
@@ -133,7 +135,7 @@ public class ConsoleMenu {
         int random = rand.nextInt(9);
         printMenu();
 
-        drawArray(random, "OOP Asingnment \nstudent nr. 90903223A" + random,null,null,false);
+        drawArray(random, "OOP Asingnment \nstudent nr. A00325954" + random,null,null,false);
      
     }
     private void output(boolean reinit) {
@@ -200,7 +202,7 @@ public class ConsoleMenu {
         {
 
             //draw hearts
-            if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().isQuestionsEnabled())
+            if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().isQuestionsEnabled()==false)
             {
                 String hearts = "";
                 for(int i = 0; i<Tools.getInstance().getGameStat().getLives(); i++)

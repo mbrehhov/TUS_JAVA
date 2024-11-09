@@ -1,3 +1,6 @@
 1#A - 3 public classes #B - 1 public class#C - As many as you want#D - none Public class is security security threat
-2#A - 3 private classes #B - 1 private class#C - As many as you want#D - none private class is security security threat
-3#A - 3 default classes #B - 1 default class#C - As many as you want#D - none default class is security security threat
+2#A - WRITE OPEN READ ALWAYS#B - WRITE ONCE RUN ANYWHERE#C - WRITE ONCE READ ANYWHERE#D - WRITE ON READ OUT
+3#A - classcode #B - interface#C - bytecodet#D - none, it runs the class file
+4#A - JVM#B -MVJ#C - JIN#D - MVJ
+5#A - 2#B - 4#C - 6#D - 8
+6#A - positive#B - negative
