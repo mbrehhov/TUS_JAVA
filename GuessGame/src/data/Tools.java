@@ -6,7 +6,7 @@ import java.io.RandomAccessFile;
 //Bill Pugh singleton
 public class Tools {
     private static RandomAccessFile javaQuestions;
-    private static RandomAccessFile javaAnswers;
+    private static RandomAccessFile javaAnswer;
     private static RandomAccessFile javaOptions;
 
     private static Stats gameStat;
@@ -34,12 +34,12 @@ public class Tools {
         try {
 
             javaQuestions = new RandomAccessFile(filepathJavaQuestions, "r");
-            javaAnswers = new RandomAccessFile(filepathJavaAnswers, "r");
+            javaAnswer = new RandomAccessFile(filepathJavaAnswers, "r");
             javaOptions = new RandomAccessFile(filepathJavaOptions, "r");
 
         } catch (FileNotFoundException e) {
             javaQuestions = null;
-            javaAnswers = null;
+            javaAnswer = null;
         }
 
     }
@@ -49,8 +49,8 @@ public class Tools {
         return javaQuestions;
     }
 
-    public static RandomAccessFile getJavaAnsers() {
-        return javaAnswers;
+    public static RandomAccessFile getJavaAnswer() {
+        return javaAnswer;
     }
 
     public static RandomAccessFile getJavaOptions() {

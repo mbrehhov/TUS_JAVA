@@ -21,9 +21,8 @@ public class Quiz implements  Imainfunct{
     }
 
     @Override
-    public int verify(int linenr) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'verify'");
+    public String correctAnsw(int linenr) {
+        return readLine(linenr, Tools.getInstance().getJavaAnswer()); 
     }
 
     @Override
@@ -63,11 +62,14 @@ public class Quiz implements  Imainfunct{
         return currentLine;
     }
 
-    @Override
-    public int score(boolean correctness) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'score'");
+    static public float score(int secondsLeft) {
+        
+        return secondsLeft*1.5f; 
     }
+
+
+
+  
 
     
 

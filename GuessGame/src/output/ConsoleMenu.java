@@ -40,7 +40,7 @@ public class ConsoleMenu {
                             Tools.getInstance().setGameStat(new Stats());
                             Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             getQuestionOption(new Quiz());
-                            
+                  
                             time = new Timing(this);
                             
                             genericT = new Thread(time);
@@ -60,7 +60,11 @@ public class ConsoleMenu {
                         genericT.join();
                         time = null;
                         //print stats into array or somewhere
+                        //also record into file. to get top score later
+                        // 
                         // null stats
+                        // null stats
+                        Tools.getInstance().getGameStat().setScore(0);
                         Tools.getInstance().setGameStat(null);
                         
                         //maybe need to disable new questions..  I'll leave this option for future usecase. 
@@ -81,22 +85,60 @@ public class ConsoleMenu {
                  
                  // answers for quiz
                     case 'a' -> {
-                        String data = "selected Adddddddddddddddddddddddddddddddddddddddddddddddds";
-                        move(data);
+                        Stats stats = Tools.getInstance().getGameStat();
+
+                        if (stats!=null || stats.isQuestionsEnabled()==false)
+                        {
+                            if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
+                            {
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                            }
+                          
+                        }
                     }
                     case 'b' -> {
-                        String data = "selected B";
-                        move(data);
+                        Stats stats = Tools.getInstance().getGameStat();
+
+                        if (stats!=null || stats.isQuestionsEnabled()==false)
+                        {
+                            if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
+                            {
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                            }
+                                
+                        }
+
+
+
                     }
 
                     case 'c' -> {
-                        String data = "selected C";
-                        move(data);
+
+                        Stats stats = Tools.getInstance().getGameStat();
+
+                        if (stats!=null || stats.isQuestionsEnabled()==false)
+                        {
+                            if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
+                            {
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                            }
+                                                       
+                        }
+
                     }
 
                     case 'd' -> {
-                        String data = "selected D";
-                        move(data);
+                        
+                        Stats stats = Tools.getInstance().getGameStat();
+
+                        if (stats!=null || stats.isQuestionsEnabled()==false)
+                        {
+                            if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
+                            {
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                            }
+                        }
+
                     }
 
                     default -> returnCursorOnePostion();
@@ -121,7 +163,8 @@ public class ConsoleMenu {
                        String question =  quiz.read();
                        int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
                        String options =  quiz.options(linenr);
-                    
+                       String correctAnswer = quiz.correctAnsw(linenr);
+                       Tools.getInstance().getGameStat().setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length()-1));
                        move(question,options);
     }
 
@@ -131,11 +174,11 @@ public class ConsoleMenu {
 
     private void output() {
         output(true);
-        Random rand = new Random();
-        int random = rand.nextInt(9);
+        //Random rand = new Random();
+        //int random = rand.nextInt(9);
         printMenu();
 
-        drawArray(random, "OOP Asingnment \nstudent nr. A00325954" + random,null,null,false);
+        drawArray(0, "OOP Asingnment \nstudent nr. A00325954",null,null,false);
      
     }
     private void output(boolean reinit) {
@@ -200,7 +243,16 @@ public class ConsoleMenu {
         } else
 
         {
+            //draw scores
 
+            if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().getScore()!=0)
+            {
+                twoDim[0][3] = "Scores:"+Tools.getInstance().getGameStat().getScore();
+            
+            }
+            else  twoDim[0][3] = "";
+            
+     
             //draw hearts
             if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().isQuestionsEnabled()==false)
             {

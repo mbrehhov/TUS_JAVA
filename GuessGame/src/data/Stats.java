@@ -5,14 +5,22 @@ package data;
 
 
 public class Stats {
-    private int score;
-    //private int questionCount;
+    //score should have coeficent with time , the more time you still have (means quicker answer), the more score..
+    private float  score;
+    private String currentQuestionAnswer;
     private boolean questionsEnabled;
     private int lives = 10;
-    public int getScore() {
+
+    public String getCurrentQuestionAnswer() {
+        return currentQuestionAnswer;
+    }
+    public void setCurrentQuestionAnswer(String currentQuestionAnswer) {
+        this.currentQuestionAnswer = currentQuestionAnswer;
+    }
+    public float getScore() {
         return score;
     }
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
     public boolean isQuestionsEnabled() {

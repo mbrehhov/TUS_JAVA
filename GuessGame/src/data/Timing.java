@@ -7,6 +7,10 @@ public class Timing implements Runnable {
     private volatile ConsoleMenu cm;
     private int time;
 
+    public int getTime() {
+        return time;
+    }
+
     public Timing(ConsoleMenu cm) {
         super();
         this.cm = cm;
