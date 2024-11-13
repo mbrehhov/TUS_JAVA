@@ -41,6 +41,10 @@ public class Tools {
             javaQuestions = null;
             javaAnswer = null;
         }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
 
     }
 

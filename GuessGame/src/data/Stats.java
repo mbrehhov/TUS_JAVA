@@ -9,8 +9,15 @@ public class Stats {
     private float  score;
     private String currentQuestionAnswer;
     private boolean questionsEnabled;
-    private int lives = 10;
-
+    private int lives = 3;
+    private Thread quizThread;  // when game is finished, this thread (responsible for fireing questions) should be joined with main and nuled the field 
+    private Timing timingThread; // when game is finished, stopLoop should be called and then nulled the field.
+    public Timing getTimingThread() {
+        return timingThread;
+    }
+    public void setTimingThread(Timing timingThread) {
+        this.timingThread = timingThread;
+    }
     public String getCurrentQuestionAnswer() {
         return currentQuestionAnswer;
     }
@@ -34,6 +41,14 @@ public class Stats {
     }
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public Thread getQuizThread() {
+        return quizThread;
+    }
+
+    public void setQuizThread(Thread quizThread) {
+        this.quizThread = quizThread;
     }
 
 }

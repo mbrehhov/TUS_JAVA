@@ -5,10 +5,9 @@ import data.Stats;
 import data.Timing;
 import data.Tools;
 import java.util.HashMap;
-import java.util.Random;
 
 public class ConsoleMenu {
-
+    StringBuilder title = null;
     static String[][] twoDim = null;
     static HashMap<String, String> twoDimValues = new HashMap<String, String>();
     private int rows = 15;
@@ -16,8 +15,6 @@ public class ConsoleMenu {
 
     public void execute() {
 
-        Timing time = null;
-        Thread genericT = null; 
        
         output();
 
@@ -40,42 +37,27 @@ public class ConsoleMenu {
                             Tools.getInstance().setGameStat(new Stats());
                             Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             getQuestionOption(new Quiz());
-                  
-                            time = new Timing(this);
-                            
-                            genericT = new Thread(time);
+                            var time = new Timing(this);
+                            Tools.getInstance().getGameStat().setTimingThread(time);
+                            var genericT = new Thread(time);
                             genericT.start();
-                            
+                            Tools.getInstance().getGameStat().setQuizThread(genericT);
 
                         }
      
 
                     }
                     case '2' -> {
-                        System.out.print("\033[H\033[2J");
-                        System.out.flush();
-                        output();
-
-                        time.stopLoop();
-                        genericT.join();
-                        time = null;
-                        //print stats into array or somewhere
-                        //also record into file. to get top score later
-                        // 
-                        // null stats
-                        // null stats
-                        Tools.getInstance().getGameStat().setScore(0);
-                        Tools.getInstance().setGameStat(null);
-                        
-                        //maybe need to disable new questions..  I'll leave this option for future usecase. 
-
+                        leaveGameToMainMenu();
+                     
                     }
 
                     case '3' -> {
                         exit = true;
-                        time.stopLoop();
-                        genericT.join();
-                        time = null;
+                        leaveGameToMainMenu();
+                        //time.stopLoop();
+                        //genericT.join();
+                        //time = null;
                         // on exit we can clear console.
                         // https://stackoverflow.com/questions/10241217/how-to-clear-console-in-java
                         System.out.print("\033[H\033[2J");
@@ -91,7 +73,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
                             }
                           
                         }
@@ -103,7 +85,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
                             }
                                 
                         }
@@ -120,7 +102,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
                             }
                                                        
                         }
@@ -135,7 +117,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)time.getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
                             }
                         }
 
@@ -174,11 +156,23 @@ public class ConsoleMenu {
 
     private void output() {
         output(true);
-        //Random rand = new Random();
-        //int random = rand.nextInt(9);
         printMenu();
 
-        drawArray(0, "OOP Asingnment \nstudent nr. A00325954",null,null,false);
+        //string builder usage
+
+        if(null == title)
+        {
+            title = new StringBuilder();
+
+            title.append("OOP Asingnment");
+            title.append(System.getProperty("line.separator"));
+            title.append("student nr. A00325954");
+        }
+
+ 
+        
+
+        drawArray(0, title.toString(),null,null,false);
      
     }
     private void output(boolean reinit) {
@@ -216,6 +210,7 @@ public class ConsoleMenu {
         twoDim[12][1] =  "[4] test app";
         twoDim[13][1] =  "[3] exit";
         twoDim[14][1] =  "#########################";
+         
     }
 
     private void printQuestionMenu() {
@@ -304,7 +299,7 @@ public class ConsoleMenu {
         //idea is to try to avoid unnececsarry prints...
         //becouse copyes 2 dim arrays each time is sort of resrouce heavy..
         //better to use some sort of hashmap that record value only.. like string  to string ("1-1" -> "value")
-
+            //its not working yet
         //if(Tools.getInstance().getSnapshot()!=null)
         {
             //String[][] prevstate = Tools.getInstance().getSnapshot();
@@ -339,37 +334,65 @@ public class ConsoleMenu {
     }
 
     // this function is called when we want updated our console screen
+    
+    
     private void move() {
         moveCursorBeginning();
         output();
 
     }
-    private void move(boolean reinitArray) {
-        moveCursorBeginning();
-        output(reinitArray);
+    
+ 
+    private void move(String... strData)
+    {
 
+        if(strData.length==1) 
+        {
+            moveCursorBeginning();
+            output(strData[0]);
+    
+        }
+        else
+        {
+            moveCursorBeginning();
+            output(strData[0],strData[1]);
+    
+        }
     }
     public void moveTime(String time)
     {
         moveCursorBeginning();
         outputTime(time);
     }
-    private void move(String data) {
-        moveCursorBeginning();
-        output(data);
 
-    }
-    private void move(String question, String options) {
-        moveCursorBeginning();
-        output(question,options);
-
-    }
     // for reference A cursor up, B down, C and D right/left
     // we are using 15 lines + 1 our input
 
     synchronized private void moveCursorBeginning() {
         for (int k = 0; k < 15; k++)
             System.out.print("\u001B[A");
+    }
+
+     public void leaveGameToMainMenu() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        output();
+
+        
+        Tools.getInstance().getGameStat().getTimingThread().stopLoop();
+        
+        Tools.getInstance().getGameStat().setTimingThread(null);
+        try {
+            Tools.getInstance().getGameStat().getQuizThread().join();
+            Tools.getInstance().getGameStat().setQuizThread(null);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        Tools.getInstance().getGameStat().setScore(0);
+        Tools.getInstance().setGameStat(null);
+
     }
 
 }

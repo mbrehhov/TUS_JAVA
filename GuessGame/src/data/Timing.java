@@ -36,10 +36,17 @@ public class Timing implements Runnable {
                 if (looping)
                     cm.moveTime(String.valueOf(time));
 
-                if (time >= 5) {
+                if (time >= 8) {
                     time = 0;
-                    Tools.getInstance().getGameStat().setLives(Tools.getInstance().getGameStat().getLives()-1);
-                    cm.getQuestionOption(new Quiz());
+                    var currentLives = Tools.getInstance().getGameStat().getLives();
+                    if (currentLives == 0) cm.leaveGameToMainMenu();
+                    else 
+                    {
+                        Tools.getInstance().getGameStat().setLives(currentLives-1);
+                        cm.getQuestionOption(new Quiz());
+                    }
+
+                    
                 }
 
             }
