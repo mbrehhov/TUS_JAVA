@@ -1,8 +1,8 @@
-package test;
+package entry;
 
 import output.ConsoleMenu;
 
-public class App {
+public class Guess {
     public static void main(String[] args) throws Exception {
         
         new ConsoleMenu().execute();

@@ -37,17 +37,18 @@ public class ConsoleMenu {
                             Tools.getInstance().setGameStat(new Stats());
                             Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             getQuestionOption(new Quiz());
-                            var time = new Timing(this);
-                            Tools.getInstance().getGameStat().setTimingThread(time);
-                            var genericT = new Thread(time);
-                            genericT.start();
-                            Tools.getInstance().getGameStat().setQuizThread(genericT);
+                            var time = new Timing(this);  //class that supports threading
+                            Tools.getInstance().getGameStat().setTiming(time);
+                            var childThread = new Thread(time);  //child thread
+                            childThread.start();  
+                            Tools.getInstance().getGameStat().setChildThread(childThread);   //to access eventually 
+
 
                         }
      
 
                     }
-                    case '2' -> {
+                    case '4' -> {
                         leaveGameToMainMenu();
                      
                     }
@@ -55,15 +56,19 @@ public class ConsoleMenu {
                     case '3' -> {
                         exit = true;
                         leaveGameToMainMenu();
-                        //time.stopLoop();
-                        //genericT.join();
-                        //time = null;
+                        
                         // on exit we can clear console.
                         // https://stackoverflow.com/questions/10241217/how-to-clear-console-in-java
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
                     }
-                    case '4' -> move();
+                    case '2' -> 
+                    {
+
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
+                        move();
+                    } 
                  
                  // answers for quiz
                     case 'a' -> {
@@ -73,7 +78,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
                             }
                           
                         }
@@ -85,7 +90,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
                             }
                                 
                         }
@@ -102,7 +107,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
                             }
                                                        
                         }
@@ -117,7 +122,7 @@ public class ConsoleMenu {
                         {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
-                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTimingThread().getTime());
+                               Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
                             }
                         }
 
@@ -166,7 +171,7 @@ public class ConsoleMenu {
 
             title.append("OOP Asingnment");
             title.append(System.getProperty("line.separator"));
-            title.append("student nr. A00325954");
+            title.append(" student nr. A00325954");
         }
 
  
@@ -207,7 +212,7 @@ public class ConsoleMenu {
 
         twoDim[10][1] =  "#########################";
         twoDim[11][1] =  "[1] new game";
-        twoDim[12][1] =  "[4] test app";
+        twoDim[12][1] =  "[2] highest score";
         twoDim[13][1] =  "[3] exit";
         twoDim[14][1] =  "#########################";
          
@@ -217,8 +222,8 @@ public class ConsoleMenu {
 
         twoDim[10][1] =  "                         ";
         twoDim[11][1] =  "             ";
-        twoDim[12][1] =  "             ";
-        twoDim[13][1] =  "[2] leave";
+        twoDim[12][1] =  "                ";
+        twoDim[13][1] =  "[4] leave";
         twoDim[14][1] =  "#########################";
         
     }
@@ -254,7 +259,7 @@ public class ConsoleMenu {
                 String hearts = "";
                 for(int i = 0; i<Tools.getInstance().getGameStat().getLives(); i++)
                 {
-                    hearts += "\u2665";
+                    hearts += "\u2665" + "  ";
                 }
                 twoDim[1][3] = hearts;
             }
@@ -374,24 +379,26 @@ public class ConsoleMenu {
     }
 
      public void leaveGameToMainMenu() {
+        
+        try {
+            Tools.getInstance().getGameStat().getTiming().stopLoop();
+       
+            Tools.getInstance().getGameStat().getChildThread().join();
+        } catch (InterruptedException e) {
+            //System.out.println( e);
+        }
+
+        Tools.getInstance().getGameStat().setTiming(null);
+        Tools.getInstance().getGameStat().setChildThread(null);
+
+        Tools.getInstance().getGameStat().setScore(0);
+        Tools.getInstance().setGameStat(null);
+
+
         System.out.print("\033[H\033[2J");
         System.out.flush();
         output();
 
-        
-        Tools.getInstance().getGameStat().getTimingThread().stopLoop();
-        
-        Tools.getInstance().getGameStat().setTimingThread(null);
-        try {
-            Tools.getInstance().getGameStat().getQuizThread().join();
-            Tools.getInstance().getGameStat().setQuizThread(null);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
-        Tools.getInstance().getGameStat().setScore(0);
-        Tools.getInstance().setGameStat(null);
 
     }
 

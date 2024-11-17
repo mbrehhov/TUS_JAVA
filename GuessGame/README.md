@@ -5,6 +5,6 @@ Aiming to write mini guessing game in console. Questions will be stored separatl
 and maybe game ladder. 
 I'll try to cover OOP1 assignment related pullet points and comment them in code.
 
-java --enable-preview -XX:+ShowCodeDetailsInExceptionMessages -cp /home/sagax/JAVA/github/TUS_JAVA/GuessGame/bin test.App 
-
+from command line cd into /GuessGame folder and start with
+java --enable-preview -cp bin entry.Guess
 

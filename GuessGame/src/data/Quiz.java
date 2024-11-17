@@ -1,33 +1,28 @@
 package data;
 
-
 import interfaces.Imainfunct;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
 
+public class Quiz implements Imainfunct {
 
-
-public class Quiz implements  Imainfunct{
-
-//we want to make sure resources are only opened once and then closed before closing app
-// make singlton for Files like questions_java and answers_java
-//to access the same file repeateadly. 
-
+    // implementation of interfaces that are related to reading the questions/options/answers files
+    
     @Override
     public String read() {
-        
-        return readLine(-1, Tools.getInstance().getJavaQuestions());        
+
+        return readLine(-1, Tools.getInstance().getJavaQuestions());
     }
 
     @Override
     public String correctAnsw(int linenr) {
-        return readLine(linenr, Tools.getInstance().getJavaAnswer()); 
+        return readLine(linenr, Tools.getInstance().getJavaAnswer());
     }
 
     @Override
     public String options(int linenr) {
-      return readLine(linenr, Tools.getInstance().getJavaOptions()); 
+        return readLine(linenr, Tools.getInstance().getJavaOptions());
     }
 
     private String readLine(int linenr, RandomAccessFile file) {
@@ -63,14 +58,7 @@ public class Quiz implements  Imainfunct{
     }
 
     static public float score(int secondsLeft) {
-        
-        return secondsLeft*1.5f; 
+
+        return secondsLeft * 1.5f;
     }
-
-
-
-  
-
-    
-
 }

@@ -31,27 +31,26 @@ public class Timing implements Runnable {
             while (looping) {
                 Thread.sleep(1000);
                 time++;
-                // when new game was started this class was called and ConsoleMenu initialised
-                // into that object time is sending his values.
                 if (looping)
                     cm.moveTime(String.valueOf(time));
 
                 if (time >= 8) {
                     time = 0;
                     var currentLives = Tools.getInstance().getGameStat().getLives();
-                    if (currentLives == 0) cm.leaveGameToMainMenu();
-                    else 
-                    {
-                        Tools.getInstance().getGameStat().setLives(currentLives-1);
+                    if (currentLives == 0)
+                {
+                    Thread.currentThread().interrupt(); 
+                    cm.leaveGameToMainMenu();
+                }
+                    if (currentLives > 0) {
+                        Tools.getInstance().getGameStat().setLives(currentLives - 1);
                         cm.getQuestionOption(new Quiz());
                     }
 
-                    
                 }
-
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            cm.leaveGameToMainMenu();
         }
 
     }
