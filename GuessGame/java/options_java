@@ -1,6 +1,7 @@
-1#A - 3 public classes #B - 1 public class#C - As many as you want#D - none Public class is security security threat
-2#A - WRITE OPEN READ ALWAYS#B - WRITE ONCE RUN ANYWHERE#C - WRITE ONCE READ ANYWHERE#D - WRITE ON READ OUT
-3#A - classcode #B - interface#C - bytecodet#D - none, it runs the class file
-4#A - JVM#B -MVJ#C - JIN#D - MVJ
-5#A - 2#B - 4#C - 6#D - 8
-6#A - positive#B - negative
+1#A - 3 public classes #B - 1 public class#C - As many as you want#D - none Public class is security security threat 
+2#A - WRITE OPEN READ ALWAYS#B - WRITE ONCE RUN ANYWHERE#C - WRITE ONCE READ ANYWHERE#D - WRITE ON READ OUT          
+3#A - classcode #B - interface#C - bytecodet#D - none, it runs the class file                                        
+4#A - JVM#B -MVJ#C - JIN#D - MVJ                                                                                     
+5#A - 2#B - 4#C - 6#D - 8                                                                                            
+6#A - positive#B - negative                                                                                          
+7#A - they look primitive #B some of them are lowercased #C all of them are lowercased #D none of them are lowercased

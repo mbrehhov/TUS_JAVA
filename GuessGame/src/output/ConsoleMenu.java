@@ -1,6 +1,7 @@
 package output;
 
 import data.Quiz;
+import data.Score;
 import data.Stats;
 import data.Timing;
 import data.Tools;
@@ -8,11 +9,13 @@ import java.util.HashMap;
 
 public class ConsoleMenu {
     StringBuilder title = null;
+    StringBuilder listHighScore = null;
+    
     static String[][] twoDim = null;
     static HashMap<String, String> twoDimValues = new HashMap<String, String>();
     private int rows = 15;
     private int columns = 50;
-
+    private Score highScore = new Score();
     public void execute() {
 
        
@@ -67,7 +70,9 @@ public class ConsoleMenu {
 
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
-                        move();
+                      // move();
+                      moveCursorBeginning();
+                      outputHS();
                     } 
                  
                  // answers for quiz
@@ -79,9 +84,16 @@ public class ConsoleMenu {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
                                Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
+                               Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+
+                            }
+                            else{
+
+                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
                             }
                           
                         }
+                        returnCursorOnePostion();
                     }
                     case 'b' -> {
                         Stats stats = Tools.getInstance().getGameStat();
@@ -91,11 +103,17 @@ public class ConsoleMenu {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
                                Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
+                               Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+                            
+                            }
+                            else{
+
+                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
                             }
                                 
                         }
 
-
+                        returnCursorOnePostion();
 
                     }
 
@@ -108,9 +126,17 @@ public class ConsoleMenu {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
                                Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
+                               Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+
+                            }
+                            else{
+
+                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
                             }
                                                        
                         }
+
+                        returnCursorOnePostion();
 
                     }
 
@@ -123,8 +149,15 @@ public class ConsoleMenu {
                             if(Tools.getInstance().getGameStat().getCurrentQuestionAnswer().equalsIgnoreCase(String.valueOf(selection)))
                             {
                                Tools.getInstance().getGameStat().setScore( Tools.getInstance().getGameStat().getScore()+(float)Tools.getInstance().getGameStat().getTiming().getTime());
+                               Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+
+                            }
+                            else{
+
+                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
                             }
                         }
+                        returnCursorOnePostion();
 
                     }
 
@@ -147,18 +180,33 @@ public class ConsoleMenu {
     // middle) and after that landing cursor back to original place.
 
     public void getQuestionOption(Quiz quiz) {
-                       String question =  quiz.read();
-                       int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
-                       String options =  quiz.options(linenr);
-                       String correctAnswer = quiz.correctAnsw(linenr);
-                       Tools.getInstance().getGameStat().setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length()-1));
-                       move(question,options);
+        try {
+            String question =  quiz.read();
+            int linenr = Integer.parseInt(String.valueOf(question.charAt(0)));  //add some validations here later
+            String options =  quiz.options(linenr);
+            String correctAnswer = quiz.correctAnsw(linenr);
+            Tools.getInstance().getGameStat().setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length()-1));
+            move(question,options);
+
+       } catch (Exception e) {
+        //ignore at the moment
+
+        }
     }
 
     private void returnCursorOnePostion() {
         System.out.print("\u001B[A"); // we moved next line, bringing coursor back
     }
+    private void outputHS()
+    {
+        output(true);
+        printMenu();
 
+        listHighScore = new StringBuilder();
+        listHighScore.append(highScore.getTopFive());
+        drawArray(0,listHighScore.toString(),null,null,false);
+
+    }
     private void output() {
         output(true);
         printMenu();
@@ -171,10 +219,10 @@ public class ConsoleMenu {
 
             title.append("OOP Asingnment");
             title.append(System.getProperty("line.separator"));
-            title.append(" student nr. A00325954");
+            title.append(" student nr. A00325954");           
+            title.append(System.getProperty("line.separator"));  //this line can be removed 
         }
 
- 
         
 
         drawArray(0, title.toString(),null,null,false);
@@ -247,10 +295,11 @@ public class ConsoleMenu {
 
             if(Tools.getInstance().getGameStat()!=null&& Tools.getInstance().getGameStat().getScore()!=0)
             {
+                twoDim[0][3] = "";
                 twoDim[0][3] = "Scores:"+Tools.getInstance().getGameStat().getScore();
             
             }
-            else  twoDim[0][3] = "";
+            //else  twoDim[0][3] = "";
             
      
             //draw hearts
@@ -286,10 +335,11 @@ public class ConsoleMenu {
 
                     twoDim[9][k] ="_";
                 }
+                
                 twoDim[5][13] =splittingOptions[1];
                 twoDim[6][13] =splittingOptions[2];
-                twoDim[7][13] =splittingOptions[3];
-                twoDim[8][13] =splittingOptions[4];
+                twoDim[7][13] = splittingOptions.length>3 ? splittingOptions[3] :"";
+                twoDim[8][13] =splittingOptions.length>4 ? splittingOptions[4] :"";
                 
                 
     
@@ -316,15 +366,25 @@ public class ConsoleMenu {
                     {
                        twoDimValues.put((String.valueOf(row)+String.valueOf(column)),twoDim[row][column]);
                        System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
-                       
-                      // System.out.print("differe row" +row + " differ column" + column);
-                           // System.out.print("*");
+                    
+
+
+//                       if(twoDimValues.get(String.valueOf(row)+String.valueOf(column)).contains("Scores"))
+  //                     {
+    //                        var a = 10;
+      //                 }
+
+                        // System.out.print("differe row" +row + " differ column" + column);
+                        // System.out.print("*");
                     }
                      else
                      {
                           System.out.print(twoDimValues.get(String.valueOf(row)+String.valueOf(column)));
                            
-                       
+        //                if(twoDimValues.get(String.valueOf(row)+String.valueOf(column)).contains("Scores"))
+          //             {
+            //                var a = 10;
+              //         }
                      }
                    
 
@@ -381,6 +441,9 @@ public class ConsoleMenu {
      public void leaveGameToMainMenu() {
         
         try {
+
+           // if(Tools.getInstance().getGameStat().getScore()!=0)
+                highScore.evalueteTop(Tools.getInstance().getGameStat().getScore());
             Tools.getInstance().getGameStat().getTiming().stopLoop();
        
             Tools.getInstance().getGameStat().getChildThread().join();

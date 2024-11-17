@@ -34,7 +34,7 @@ public class Quiz implements Imainfunct {
             if (linenr == -1) {
 
                 Random rand = new Random();
-                int maxLines = 3;
+                int maxLines = 7;
                 int n = rand.nextInt(maxLines); ///start from 0 not including max, so need to increment n 
                 linenr = ++n;
             }
