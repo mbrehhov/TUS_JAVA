@@ -5,12 +5,11 @@ import java.io.RandomAccessFile;
 
 //Bill Pugh singleton
 public class Tools {
-    private  RandomAccessFile javaQuestions;
-    private  RandomAccessFile javaAnswer;
-    private  RandomAccessFile javaOptions;
+    private RandomAccessFile javaQuestions;
+    private RandomAccessFile javaAnswer;
+    private RandomAccessFile javaOptions;
 
     private static Stats gameStat;
-    
 
     public static Stats getGameStat() {
         return gameStat;
@@ -35,9 +34,7 @@ public class Tools {
         } catch (FileNotFoundException e) {
             javaQuestions = null;
             javaAnswer = null;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -52,20 +49,30 @@ public class Tools {
         return ToolsHolder.singleton;
     }
 
-
-
-    public  RandomAccessFile getJavaQuestions() {
+    public RandomAccessFile getJavaQuestions() {
 
         return javaQuestions;
     }
 
-    public  RandomAccessFile getJavaAnswer() {
+    public RandomAccessFile getJavaAnswer() {
         return javaAnswer;
     }
 
-    public  RandomAccessFile getJavaOptions() {
+    public RandomAccessFile getJavaOptions() {
         return javaOptions;
     }
 
+    public void closeAll()
+    {
+        try {
+            System.out.println("ddd");
+
+            this.getJavaQuestions().close();
+            this.getJavaOptions().close();
+            this.getJavaAnswer().close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
 }

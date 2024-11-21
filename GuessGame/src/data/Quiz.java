@@ -7,8 +7,9 @@ import java.util.Random;
 
 public class Quiz implements Imainfunct {
 
-    // implementation of interfaces that are related to reading the questions/options/answers files
-    
+    // implementation of interfaces that are related to reading the
+    // questions/options/answers files
+
     @Override
     public String read() {
 
@@ -34,7 +35,7 @@ public class Quiz implements Imainfunct {
             if (linenr == -1) {
 
                 Random rand = new Random();
-                int maxLines = 7;
+                int maxLines = 8;
                 int n = rand.nextInt(maxLines); ///start from 0 not including max, so need to increment n 
                 linenr = ++n;
             }
