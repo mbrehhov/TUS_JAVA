@@ -6,10 +6,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class Score {
+public record Score() {
+ 
 
-    HashMap<Float, String> inputHashpmap = new HashMap<Float, String>(); // unorderd everything
-    HashMap<Integer, String> returnTopFive = new HashMap<Integer, String>(); // ordered everything
+    private static HashMap<Float, String> inputHashpmap = new HashMap<Float, String>(); // unorderd everything
+    private static HashMap<Integer, String> returnTopFive = new HashMap<Integer, String>(); // ordered everything
 
     public String getTopFive() {
 

@@ -52,6 +52,8 @@ public class ConsoleMenu {
 
                     }
                     case '4' -> {
+                         showTitle = false;
+                         showScore = true;
                         leaveGameToMainMenu();
 
                     }

@@ -2,7 +2,7 @@
 2. How to read WORA abbreature ?                                                                                   
 3. To what The Java compiler (javac) converts the source code ?                                                    
 4. What executes bytecode ?                                                                                        
-5. How many primitive data types java provides ?
+5. How many primitive data types java provides ?                                                                  
 6. for numeric primitives, if most significant bit (the leftmost bit) is 1 - its for positive or negative number ?
-7. How to recognize primitive data types ? 
-8. How many bits is a Byte ? 
+7. How to recognize primitive data types ?                                                                        
+8. How many bits is a Byte ?                                                                                      
