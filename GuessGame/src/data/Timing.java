@@ -1,7 +1,14 @@
 package data;
 
 import output.ConsoleMenu;
-
+/**
+ * # Timing class Example
+ *
+ * This is a **childThread** .
+ *
+ * - counts Time
+ * - prints new questions
+ */
 public class Timing implements Runnable {
     private volatile boolean looping = true;
     private volatile ConsoleMenu cm;
