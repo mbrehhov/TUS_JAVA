@@ -5,22 +5,31 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Random;
 
+/**
+ * 
+ * This is a **Quiz** class, implements functional interface.
+ *
+ * - readFile
+ */
 public class Quiz implements Imainfunct {
-
+    
     @Override
     public String readFile(int linenr, RandomAccessFile file) {
-        Imainfunct read = (k, l) -> readLine(k, l);
-        return operate(linenr, read, file);
+        return operate(linenr, getLambda(), file);
     }
-
+    
     public String operate(int lineNr, Imainfunct function, RandomAccessFile f) {
         return function.readFile(lineNr, f);
     }
 
-    private String readLine(int linenr, RandomAccessFile file) {
+    public Imainfunct getLambda()
+    {
+        return  (k, l) -> readLineFromFile(k, l);
+    }
+
+    // if line is -1 read random question else read line from given file
+    private String readLineFromFile(int linenr, RandomAccessFile file) {
         String currentLine = null;
-        // if line is -1 read random line
-        // else read line from given file
         try {
 
             if (linenr == -1) {
@@ -43,7 +52,7 @@ public class Quiz implements Imainfunct {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
 
         return currentLine;

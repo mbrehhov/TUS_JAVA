@@ -5,22 +5,33 @@ import data.Score;
 import data.Stats;
 import data.Timing;
 import data.Tools;
+import interfaces.Imenu;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConsoleMenu {
 
     StringBuilder title = null;
     StringBuilder listHighScore = null;
-
-    static String[][] twoDim = null;
-    static HashMap<String, String> twoDimValues = new HashMap<String, String>();
+    private Score highScore = new Score();
+    private String[][] twoDim = null;
+    private HashMap<String, String> twoDimValues = new HashMap<String, String>();
     private int rows = 15;
     private int columns = 50;
-    private Score highScore = new Score();
     private boolean showTitle = false;
     private boolean showScore = true;
-    
+    private ArrayList<Imenu> pages = new ArrayList(); 
+    private TitlePage  titlePage = new TitlePage();
+    private HScorePage hScorePage = new HScorePage(highScore);
+    private QuestionPage questionPage = new QuestionPage();
+    private EmptyPage emptyPage = new EmptyPage();
+ 
     public void execute() {
+        pages.add(titlePage);
+        pages.add(hScorePage);
+        pages.add(questionPage);
+        pages.add(emptyPage);
 
         output();
 
@@ -77,17 +88,20 @@ public class ConsoleMenu {
                         {
                             showScore =false;  
                             showTitle = true; 
-                            moveCursorBeginning();
-                            outputHS();
-                           
+
+                            output(this.getEmptyPage());
+                            output(this.gethScorePage());
+
                         }
                         else if(showTitle)
                         {
                             showScore =true;  
 
                             showTitle = false;
-                            move();
-                           
+                            output(this.getEmptyPage());
+                            output();
+
+                            
                         }
                     }
 
@@ -112,7 +126,7 @@ public class ConsoleMenu {
                     }
                     case 'b' -> {
                         Stats stats = Tools.getInstance().getGameStat();
-
+                        
                         if (stats != null || stats.isQuestionsEnabled() == false) {
                             if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
                                     .equalsIgnoreCase(String.valueOf(selection))) {
@@ -184,13 +198,6 @@ public class ConsoleMenu {
 
     }
 
-    // trying bit different approach how to output data on console, instead creating
-    // new lines on each selection of user
-    // program tries to reprint existing print from top, by cursor manipulation.
-    // This way it creates illusion of rendering.
-    // plan is move cursor up and output updaed array ( updated information
-    // somehwere in the
-    // middle) and after that landing cursor back to original place.
     public void getQuestionOption(Quiz quiz) {
         try {
             String question = quiz.readFile(-1,Tools.getInstance().getJavaQuestions());
@@ -211,100 +218,36 @@ public class ConsoleMenu {
         System.out.print("\u001B[A"); // we moved next line, bringing coursor back
     }
 
-    private void outputHS() {
-        output(true);
-        printMenu();
+    public void output() {
+        //output(true);
+        moveCursorBeginning();
 
-        listHighScore = new StringBuilder();
-        listHighScore.append(highScore.getTopFive());
-        drawArray(0, listHighScore.toString(), null, null, false);
+        if(twoDim == null) drawArray();
 
-    }
+        for (Imenu imenu : pages) {
 
-    private void output() {
-        output(true);
-        printMenu();
+            if (imenu instanceof TitlePage) {
+                imenu.createPage(twoDim);
+                drawArray();
 
-        // string builder usage
-        if (null == title) {
-            title = new StringBuilder();
+            }
 
-            title.append("OOP Asingnment");
-            title.append(System.getProperty("line.separator"));
-            title.append(" student nr. A00325954");
-            title.append(System.getProperty("line.separator")); // this line can be removed
         }
 
-        drawArray(0, title.toString(), null, null, false);
-
     }
 
-    private void output(boolean reinit) {
-        int random = 1;
-        drawArray(random, null, null, null, reinit);
-
-    }
-
-    private void output(String data) {
-        int random = 1;
-        printMenu();
-
-        drawArray(random, data + random, null, null, false);
-
-    }
-
-    private void outputTime(String time) {
-        int random = 1;
-        drawArray(random, null, null, time, false);
-        // printMenu();
-        printQuestionMenu();
-
-    }
-
-    private void output(String question, String options) {
-        int random = 1;
-        printQuestionMenu();
-        drawArray(random, question, options, null, false);
-        // printMenu();
-
-    }
-
-    private void printMenu() {
-
-        twoDim[10][1] = "#########################";
-        twoDim[11][1] = "[1] new game";
-        if(showTitle)
-        {
-            twoDim[12][1] = "[2] title page ";
-        }
+    public void output(Imenu page) {
+        moveCursorBeginning();
         
-        if(showScore)
-        {
-            twoDim[12][1] = "[2] highest score";
-        }
- 
+        page.createPage(twoDim);
+                drawArray();
+            }
         
-        twoDim[13][1] = "[3] exit";
-        twoDim[14][1] = "#########################";
+    
 
-    }
-
-    private void printQuestionMenu() {
-
-        twoDim[10][1] = "                         ";
-        twoDim[11][1] = "             ";
-        twoDim[12][1] = "                ";
-        twoDim[13][1] = "[4] leave";
-        twoDim[14][1] = "#########################";
-
-    }
-
-    private void drawArray(int value, String questions, String options, String timing, boolean nullDim) {
-
-        if (nullDim) {
-            twoDim = null;
-        }
-
+//    private void drawArray(int value, String questions, String options, String timing, boolean nullDim) {
+    private void drawArray() {
+      
         if (twoDim == null) {
             twoDim = new String[rows][columns];
             for (int row = 0; row < rows; row++) {
@@ -332,29 +275,13 @@ public class ConsoleMenu {
                 }
                 twoDim[1][3] = hearts;
             }
-            if (timing != null) {
+            if (Tools.getInstance().getGameStat()!=null) 
+            {
                 twoDim[2][1] = "Time:";
-                twoDim[2][2] = timing;
-
-            }
-            if (questions != null) {
-                twoDim[3][1] = questions;
+                twoDim[2][2] = Tools.getInstance().getGameStat().getCurrentTime();
             }
 
-            if (options != null) {
-                String[] splittingOptions = options.split("#");
-                for (int k = 10; k <= 40; k++) {
-                    twoDim[4][k] = "_";
-
-                    twoDim[9][k] = "_";
-                }
-
-                twoDim[5][13] = splittingOptions[1];
-                twoDim[6][13] = splittingOptions[2];
-                twoDim[7][13] = splittingOptions.length > 3 ? splittingOptions[3] : "";
-                twoDim[8][13] = splittingOptions.length > 4 ? splittingOptions[4] : "";
-
-            }
+           
 
         }
 
@@ -373,11 +300,14 @@ public class ConsoleMenu {
                         twoDimValues.put((String.valueOf(row) + String.valueOf(column)), twoDim[row][column]);
                         System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
 
-                    } else {
-                        System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
-                    }
+                    } 
+                    else
+                    System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
+
+                  
 
                 }
+               // System.out.print("\u001B[A");
 
                 System.out.println("");
             }
@@ -388,29 +318,40 @@ public class ConsoleMenu {
 
     // this function is called when we want updated our console screen
     private void move() {
-        moveCursorBeginning();
+        //moveCursorBeginning();
         output();
 
     }
 
     private void move(String... strData) {
-
         if (strData.length == 1) {
-            moveCursorBeginning();
-            output(strData[0]);
+            twoDim[3][1] = strData[0];
+                   
+            output(this.getQuestionPage());
 
         } else {
-            moveCursorBeginning();
-            output(strData[0], strData[1]);
+            twoDim[3][1] = strData[0];
+            if (strData[1] != null) {
+                String[] splittingOptions = strData[1].split("#");
+                for (int k = 10; k <= 40; k++) {
+                    twoDim[4][k] = "_";
+    
+                    twoDim[9][k] = "_";
+                }
+    
+                twoDim[5][13] = splittingOptions[1];
+                twoDim[6][13] = splittingOptions[2];
+                twoDim[7][13] = splittingOptions.length > 3 ? splittingOptions[3] : "";
+                twoDim[8][13] = splittingOptions.length > 4 ? splittingOptions[4] : "";
+    
+            }
+            
+            output(this.getQuestionPage());
 
         }
     }
 
-    public void moveTime(String time) {
-        moveCursorBeginning();
-        outputTime(time);
-    }
-
+ 
     // for reference A cursor up, B down, C and D right/left
     // we are using 15 lines + 1 our input
     synchronized private void moveCursorBeginning() {
@@ -441,8 +382,35 @@ public class ConsoleMenu {
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
+        // clear page part
+        output(this.getEmptyPage());
         output();
+        
 
+    }
+
+    public String[][] getTwoDim() {
+        return twoDim;
+    }
+
+    public HashMap<String, String> getTwoDimValues() {
+        return twoDimValues;
+    }
+
+    public TitlePage getTitlePage() {
+        return titlePage;
+    }
+
+    public HScorePage gethScorePage() {
+        return hScorePage;
+    }
+
+    public QuestionPage getQuestionPage() {
+        return questionPage;
+    }
+
+    public EmptyPage getEmptyPage() {
+        return emptyPage;
     }
 
 }

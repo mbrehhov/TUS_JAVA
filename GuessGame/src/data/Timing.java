@@ -56,7 +56,11 @@ public class Timing implements Runnable {
                 Thread.sleep(1000);
                 time++;
                 if (looping)
-                    cm.moveTime(String.valueOf(time));
+                    {
+                        Tools.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
+                        cm.output(cm.getQuestionPage());
+                    }
+                    
 
                 if (time >= 14) {
                     time = 0;

@@ -7,6 +7,7 @@ package data;
 public class Stats {
     private float score;
     private String currentQuestionAnswer;
+    private String currentTime;
     private boolean questionsEnabled;
     private int lives = 3;
     private Thread childThread;
@@ -58,6 +59,14 @@ public class Stats {
 
     public void setChildThread(Thread childThread) {
         this.childThread = childThread;
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
     }
 
 }

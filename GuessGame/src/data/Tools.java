@@ -11,7 +11,7 @@ public class Tools {
 
     private static Stats gameStat;
 
-    public static Stats getGameStat() {
+    public Stats getGameStat() {
         return gameStat;
     }
 
