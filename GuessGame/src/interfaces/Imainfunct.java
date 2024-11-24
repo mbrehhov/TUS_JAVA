@@ -1,10 +1,13 @@
 package interfaces;
 
+import java.io.RandomAccessFile;
+
+@FunctionalInterface
 public interface Imainfunct {
 
-    String read();
+    String readFile(int linenr,RandomAccessFile f);
 
-    String correctAnsw(int linenr);
+    //String correctAnsw(int linenr);
 
-    String options(int linenr);
+    //String options(int linenr);
 }

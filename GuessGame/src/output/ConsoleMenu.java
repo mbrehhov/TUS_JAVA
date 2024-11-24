@@ -193,10 +193,10 @@ public class ConsoleMenu {
     // middle) and after that landing cursor back to original place.
     public void getQuestionOption(Quiz quiz) {
         try {
-            String question = quiz.read();
+            String question = quiz.readFile(-1,Tools.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(String.valueOf(question.charAt(0))); // add some validations here later
-            String options = quiz.options(linenr);
-            String correctAnswer = quiz.correctAnsw(linenr);
+            String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
+            String correctAnswer = quiz.readFile(linenr,Tools.getInstance().getJavaAnswer());
             Tools.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
             move(question, options);

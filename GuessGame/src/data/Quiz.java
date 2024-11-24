@@ -7,23 +7,14 @@ import java.util.Random;
 
 public class Quiz implements Imainfunct {
 
-    // implementation of interfaces that are related to reading the
-    // questions/options/answers files
-
     @Override
-    public String read() {
-
-        return readLine(-1, Tools.getInstance().getJavaQuestions());
+    public String readFile(int linenr, RandomAccessFile file) {
+        Imainfunct read = (k, l) -> readLine(k, l);
+        return operate(linenr, read, file);
     }
 
-    @Override
-    public String correctAnsw(int linenr) {
-        return readLine(linenr, Tools.getInstance().getJavaAnswer());
-    }
-
-    @Override
-    public String options(int linenr) {
-        return readLine(linenr, Tools.getInstance().getJavaOptions());
+    public String operate(int lineNr, Imainfunct function, RandomAccessFile f) {
+        return function.readFile(lineNr, f);
     }
 
     private String readLine(int linenr, RandomAccessFile file) {
