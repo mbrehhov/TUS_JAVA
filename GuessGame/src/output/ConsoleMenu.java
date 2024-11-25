@@ -21,12 +21,12 @@ public class ConsoleMenu {
     private int columns = 50;
     private boolean showTitle = false;
     private boolean showScore = true;
-    private ArrayList<Imenu> pages = new ArrayList(); 
-    private TitlePage  titlePage = new TitlePage();
+    private ArrayList<Imenu> pages = new ArrayList();
+    private TitlePage titlePage = new TitlePage();
     private HScorePage hScorePage = new HScorePage(highScore);
     private QuestionPage questionPage = new QuestionPage();
     private EmptyPage emptyPage = new EmptyPage();
- 
+
     public void execute() {
         pages.add(titlePage);
         pages.add(hScorePage);
@@ -60,11 +60,10 @@ public class ConsoleMenu {
                             Tools.getInstance().getGameStat().setChildThread(childThread); // to access eventually
 
                         }
-
                     }
                     case '4' -> {
-                         showTitle = false;
-                         showScore = true;
+                        showTitle = false;
+                        showScore = true;
                         leaveGameToMainMenu();
 
                     }
@@ -78,113 +77,33 @@ public class ConsoleMenu {
                         Tools.getInstance().closeAll();
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
-                        
+
                     }
                     case '2' -> {
                         System.out.print("\033[H\033[2J");
                         System.out.flush();
 
-                        if(showScore)
-                        {
-                            showScore =false;  
-                            showTitle = true; 
+                        if (showScore) {
+                            showScore = false;
+                            showTitle = true;
 
                             output(this.getEmptyPage());
                             output(this.gethScorePage());
 
-                        }
-                        else if(showTitle)
-                        {
-                            showScore =true;  
+                        } else if (showTitle) {
+                            showScore = true;
 
                             showTitle = false;
                             output(this.getEmptyPage());
                             output();
 
-                            
                         }
                     }
 
                     // answers for quiz
-                    case 'a' -> {
-                        Stats stats = Tools.getInstance().getGameStat();
-
-                        if (stats != null || stats.isQuestionsEnabled() == false) {
-                            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
-                                    .equalsIgnoreCase(String.valueOf(selection))) {
-                                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
-                                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
-                                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
-
-                            } else {
-
-                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
-                            }
-
-                        }
+                    case 'a', 'b', 'c', 'd' -> {
+                        answerToQuestion(selection);
                         returnCursorOnePostion();
-                    }
-                    case 'b' -> {
-                        Stats stats = Tools.getInstance().getGameStat();
-                        
-                        if (stats != null || stats.isQuestionsEnabled() == false) {
-                            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
-                                    .equalsIgnoreCase(String.valueOf(selection))) {
-                                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
-                                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
-                                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
-
-                            } else {
-
-                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
-                            }
-
-                        }
-
-                        returnCursorOnePostion();
-
-                    }
-
-                    case 'c' -> {
-
-                        Stats stats = Tools.getInstance().getGameStat();
-
-                        if (stats != null || stats.isQuestionsEnabled() == false) {
-                            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
-                                    .equalsIgnoreCase(String.valueOf(selection))) {
-                                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
-                                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
-                                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
-
-                            } else {
-
-                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
-                            }
-
-                        }
-
-                        returnCursorOnePostion();
-
-                    }
-
-                    case 'd' -> {
-
-                        Stats stats = Tools.getInstance().getGameStat();
-
-                        if (stats != null || stats.isQuestionsEnabled() == false) {
-                            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
-                                    .equalsIgnoreCase(String.valueOf(selection))) {
-                                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
-                                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
-                                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
-
-                            } else {
-
-                                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
-                            }
-                        }
-                        returnCursorOnePostion();
-
                     }
 
                     default ->
@@ -200,10 +119,10 @@ public class ConsoleMenu {
 
     public void getQuestionOption(Quiz quiz) {
         try {
-            String question = quiz.readFile(-1,Tools.getInstance().getJavaQuestions());
+            String question = quiz.readFile(-1, Tools.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(String.valueOf(question.charAt(0))); // add some validations here later
             String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
-            String correctAnswer = quiz.readFile(linenr,Tools.getInstance().getJavaAnswer());
+            String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
             Tools.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
             move(question, options);
@@ -219,10 +138,11 @@ public class ConsoleMenu {
     }
 
     public void output() {
-        //output(true);
-        moveCursorBeginning();
+        // output(true);
 
-        if(twoDim == null) drawArray();
+        if (twoDim == null)
+            drawArray();
+        moveCursorBeginning();
 
         for (Imenu imenu : pages) {
 
@@ -233,26 +153,22 @@ public class ConsoleMenu {
             }
 
         }
-
     }
 
     public void output(Imenu page) {
         moveCursorBeginning();
-        
-        page.createPage(twoDim);
-                drawArray();
-            }
-        
-    
 
-//    private void drawArray(int value, String questions, String options, String timing, boolean nullDim) {
+        page.createPage(twoDim);
+        drawArray();
+    }
+
     private void drawArray() {
-      
+
         if (twoDim == null) {
             twoDim = new String[rows][columns];
             for (int row = 0; row < rows; row++) {
                 for (int column = 0; column < columns; column++) {
-                    twoDim[row][column] = " ";
+                    twoDim[row][column] = "";
                 }
 
             }
@@ -264,7 +180,6 @@ public class ConsoleMenu {
                 twoDim[0][3] = "Scores:" + Tools.getInstance().getGameStat().getScore();
 
             }
-            // else twoDim[0][3] = "";
 
             // draw hearts
             if (Tools.getInstance().getGameStat() != null
@@ -275,13 +190,10 @@ public class ConsoleMenu {
                 }
                 twoDim[1][3] = hearts;
             }
-            if (Tools.getInstance().getGameStat()!=null) 
-            {
+            if (Tools.getInstance().getGameStat() != null) {
                 twoDim[2][1] = "Time:";
                 twoDim[2][2] = Tools.getInstance().getGameStat().getCurrentTime();
             }
-
-           
 
         }
 
@@ -300,14 +212,11 @@ public class ConsoleMenu {
                         twoDimValues.put((String.valueOf(row) + String.valueOf(column)), twoDim[row][column]);
                         System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
 
-                    } 
-                    else
-                    System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
-
-                  
+                    } else
+                        System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
 
                 }
-               // System.out.print("\u001B[A");
+                // System.out.print("\u001B[A");
 
                 System.out.println("");
             }
@@ -316,42 +225,37 @@ public class ConsoleMenu {
 
     }
 
-    // this function is called when we want updated our console screen
-    private void move() {
-        //moveCursorBeginning();
-        output();
-
-    }
-
     private void move(String... strData) {
         if (strData.length == 1) {
+            output(this.getEmptyPage());
             twoDim[3][1] = strData[0];
-                   
+         
             output(this.getQuestionPage());
 
         } else {
+            output(this.getEmptyPage());
+
             twoDim[3][1] = strData[0];
             if (strData[1] != null) {
                 String[] splittingOptions = strData[1].split("#");
                 for (int k = 10; k <= 40; k++) {
                     twoDim[4][k] = "_";
-    
+
                     twoDim[9][k] = "_";
                 }
-    
+
                 twoDim[5][13] = splittingOptions[1];
                 twoDim[6][13] = splittingOptions[2];
                 twoDim[7][13] = splittingOptions.length > 3 ? splittingOptions[3] : "";
                 twoDim[8][13] = splittingOptions.length > 4 ? splittingOptions[4] : "";
-    
+
             }
-            
+
             output(this.getQuestionPage());
 
         }
     }
 
- 
     // for reference A cursor up, B down, C and D right/left
     // we are using 15 lines + 1 our input
     synchronized private void moveCursorBeginning() {
@@ -369,7 +273,7 @@ public class ConsoleMenu {
             Tools.getInstance().getGameStat().getTiming().stopLoop();
 
             Tools.getInstance().getGameStat().getChildThread().join();
-            
+
         } catch (InterruptedException e) {
             // System.out.println( e);
         }
@@ -385,7 +289,6 @@ public class ConsoleMenu {
         // clear page part
         output(this.getEmptyPage());
         output();
-        
 
     }
 
@@ -411,6 +314,24 @@ public class ConsoleMenu {
 
     public EmptyPage getEmptyPage() {
         return emptyPage;
+    }
+
+    private void answerToQuestion(char selection) {
+        Stats stats = Tools.getInstance().getGameStat();
+
+        if (stats != null || stats.isQuestionsEnabled() == false) {
+            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
+                    .equalsIgnoreCase(String.valueOf(selection))) {
+                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
+                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
+                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+
+            } else {
+
+                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
+            }
+
+        }
     }
 
 }
