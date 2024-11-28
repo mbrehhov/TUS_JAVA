@@ -141,7 +141,7 @@ public class ConsoleMenu {
     public void getQuestionOption(Quiz quiz) {
         try {
             String question = quiz.readFile(-1, Tools.getInstance().getJavaQuestions());
-            int linenr = Integer.parseInt(String.valueOf(question.charAt(0))); // add some validations here later
+            int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here later
             String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
             String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
             Tools.getInstance().getGameStat()
