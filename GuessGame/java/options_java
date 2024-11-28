@@ -5,4 +5,8 @@
 5#A - 2#B - 4#C - 6#D - 8                                                                                            
 6#A - positive#B - negative                                                                                          
 7#A - they look primitive #B some of them are lowercased #C all of them are lowercased #D none of them are lowercased
-8#A - 2#B - 6#C - 8#D - 10                                                                                           
+8#A - 2#B - 6#C - 8#D - 10   
+9#A - yes#B - no        
+10#A - yes#B - no                                                                                                    
+11#A - When class does not have any constructor defined. #BWhen class has no arg constructor. #C always #D never
+12#A - yes#B - no

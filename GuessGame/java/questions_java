@@ -5,4 +5,8 @@
 5. How many primitive data types java provides ?                                                                  
 6. for numeric primitives, if most significant bit (the leftmost bit) is 1 - its for positive or negative number ?
 7. How to recognize primitive data types ?                                                                        
-8. How many bits is a Byte ?                                                                                      
+8. How many bits is a Byte ? 
+9. Does every class including abstract class need to have constructor ?                                          
+10. Do Interfaces has constructor ? 
+11. When is default constructor Generated ?
+12. Can you call constructor from the Method ? 

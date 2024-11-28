@@ -8,6 +8,7 @@ public class Tools {
     private RandomAccessFile javaQuestions;
     private RandomAccessFile javaAnswer;
     private RandomAccessFile javaOptions;
+    private String filePostfix="java";
 
     private static Stats gameStat;
 
@@ -19,14 +20,16 @@ public class Tools {
         Tools.gameStat = gameStat;
     }
 
-    private Tools() {
+    public void reAssign()
+    {
+        closeAll(); 
 
-        String filepathJavaQuestions = System.getProperty("user.dir") + "/java/questions_java";
-        String filepathJavaOptions = System.getProperty("user.dir") + "/java/options_java";
-        String filepathJavaAnswers = System.getProperty("user.dir") + "/java/answers_java";
+        String filepathJavaQuestions = System.getProperty("user.dir") + "/java/questions_"+filePostfix;
+        String filepathJavaOptions = System.getProperty("user.dir") + "/java/options_"+filePostfix;
+        String filepathJavaAnswers = System.getProperty("user.dir") + "/java/answers_"+filePostfix;
 
         try {
-
+            
             javaQuestions = new RandomAccessFile(filepathJavaQuestions, "r");
             javaAnswer = new RandomAccessFile(filepathJavaAnswers, "r");
             javaOptions = new RandomAccessFile(filepathJavaOptions, "r");
@@ -37,7 +40,15 @@ public class Tools {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+   
+    }
+    private Tools() {
+          
+        reAssign();
+    }
 
+    public void setFilePostfix(String filePostfix) {
+        this.filePostfix = filePostfix;
     }
 
     private static class ToolsHolder {
@@ -65,11 +76,10 @@ public class Tools {
     public void closeAll()
     {
         try {
-            System.out.println("ddd");
 
-            this.getJavaQuestions().close();
-            this.getJavaOptions().close();
-            this.getJavaAnswer().close();
+            if(this.getJavaQuestions()!=null) this.getJavaQuestions().close();  
+            if(this.getJavaOptions()!=null) this.getJavaOptions().close();
+            if(this.getJavaAnswer()!=null) this.getJavaAnswer().close();
         } catch (Exception e) {
             System.out.println(e);
         }

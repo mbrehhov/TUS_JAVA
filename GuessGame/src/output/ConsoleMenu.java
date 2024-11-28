@@ -45,6 +45,27 @@ public class ConsoleMenu {
                 selection = (new String(System.console().readPassword()).toLowerCase()).charAt(0);
 
                 switch (selection) {
+                    case 'p' -> {
+                    
+                        Tools.getInstance().setFilePostfix("python");
+                        Tools.getInstance().reAssign();
+                        returnCursorOnePostion();
+
+                    }
+
+                    case 'j' -> {
+                        Tools.getInstance().setFilePostfix("java");
+                        Tools.getInstance().reAssign();
+                        returnCursorOnePostion();
+
+                    }
+                    case 'm' -> {
+                        Tools.getInstance().setFilePostfix("dm");
+                        Tools.getInstance().reAssign();
+                        returnCursorOnePostion();
+
+                    }
+
                     case '1' -> {
                         // starting new game
                         Stats stats = Tools.getInstance().getGameStat();
