@@ -1,3 +1,5 @@
 1. is regression supervised machine learning ?                                                                   
 2. in simple regression - withc one is objective function knows as cost function     ?
 3. How is cost function some times called ? 
+4. Decision trees works with continuous variables (e.g., income) and categorical variables (e.g., gender) ?
+5. In decision trees, what referes to bucket size ? 
