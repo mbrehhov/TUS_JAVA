@@ -9,6 +9,9 @@ import interfaces.Imenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 public class ConsoleMenu {
 
@@ -26,8 +29,11 @@ public class ConsoleMenu {
     private HScorePage hScorePage = new HScorePage(highScore);
     private QuestionPage questionPage = new QuestionPage();
     private EmptyPage emptyPage = new EmptyPage();
+                Set<String> a = new HashSet<String>();
 
     public void execute() {
+          
+
         pages.add(titlePage);
         pages.add(hScorePage);
         pages.add(questionPage);
@@ -144,8 +150,12 @@ public class ConsoleMenu {
             int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here later
             String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
             String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
+            
+
+
             Tools.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
+            
             move(question, options);
 
         } catch (Exception e) {
@@ -258,18 +268,34 @@ public class ConsoleMenu {
 
             twoDim[3][1] = strData[0];
             if (strData[1] != null) {
-                String[] splittingOptions = strData[1].split("#");
+                String[] splittingOptions = strData[1].substring(strData[1].indexOf("#")+1).split("#");
                 for (int k = 10; k <= 40; k++) {
                     twoDim[4][k] = "_";
 
                     twoDim[9][k] = "_";
                 }
+                a.clear();
+                    for (String string : splittingOptions) {
+                        a.add(string);
+                    }
+                    int index = 0;
+                    //hasset iteration - gives you a bit randomness
+                  
+    
+                    for (String qo : a) {
+                        // Print HashSet data
+                        twoDim[5+index][13] = qo;
 
+                        index++;
+                    }
+
+
+/*
                 twoDim[5][13] = splittingOptions[1];
                 twoDim[6][13] = splittingOptions[2];
                 twoDim[7][13] = splittingOptions.length > 3 ? splittingOptions[3] : "";
                 twoDim[8][13] = splittingOptions.length > 4 ? splittingOptions[4] : "";
-
+ */
             }
 
             output(this.getQuestionPage());
