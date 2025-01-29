@@ -1,3 +1,13 @@
+# Developer added ignores ------------
+
+# Ignore all files inside the models folder
+models/*
+
+# But do not ignore the models folder itself
+!models/.gitkeep
+
+
+# -----------Github auto generated ignores --------------
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
