@@ -29,3 +29,16 @@
 29#A - Probabilistic classifier #B Discrete classifier
 30#A - Probabilistic classifier #B Discrete classifier
 31#A - disjont,deterministic and flat ? B#overlapping, probabilistic, hierarchical
+32#A - yes #B - no
+33#A - using lobochevski Technology #B - using Euclidean distance
+34#A - the sum of distances from each instance to its cluster center. #B - SSE
+35#A - the probability of A given that B is false #B the probability of A given that B is true
+36#A - the probability of B given that A is true #B the probability of B given that A is false
+37#A - yes #B - no
+38#A - to prevent one attributs distance measure being dominated by other #B common  with all algorithms 
+39#A - min-max & z-score  normalization, B# avg normalization, C# avg & n-score norm. D# none of listed
+40#A - Discrete data and Continouus data, B# nominal and ordinal data 
+41#A - hair color, B# hot-medium-cold
+
+
+

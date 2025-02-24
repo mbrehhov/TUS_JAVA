@@ -12,3 +12,6 @@
 12. Can you call constructor from the Method ? 
 13. From wollowing symbols what is operator ? 
 14. From wollowing symbols what is operand ?
+15. Encapsulation ensures that 
+16. The package declaration can never occur after an import statement.
+17. A class may contain both static and non-static variables and both static and non-static methods ?

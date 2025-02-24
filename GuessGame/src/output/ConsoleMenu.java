@@ -71,6 +71,12 @@ public class ConsoleMenu {
                         returnCursorOnePostion();
 
                     }
+                    case 'e' -> {
+                        Tools.getInstance().setFilePostfix("ens");
+                        Tools.getInstance().reAssign();
+                        returnCursorOnePostion();
+
+                    }
 
                     case '1' -> {
                         // starting new game

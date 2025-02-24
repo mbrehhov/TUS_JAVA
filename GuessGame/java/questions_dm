@@ -29,3 +29,13 @@
 29. What is point in ROC space ? 
 30. What is line in ROC space ? 
 31. in Clustering k-means are ? 
+32. in Clustering k points are choosen randomly as cluster centers ? 
+33. in Clustering how is instances assigned to their nearest cluster centers?
+34. What is k-mean objective function ? 
+35. In bayes theorem P(A|B) means ? 
+36. In bayes theorem P(B|A) means ? 
+37. In knn do you need to build model?
+38. in Knn why do you need to scale attributes?
+39. in Knn what methods are used for scaling attributes ?
+40. types of Categorial data ?
+41. Ordering value example? 
