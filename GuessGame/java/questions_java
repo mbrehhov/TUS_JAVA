@@ -5,4 +5,13 @@
 5. How many primitive data types java provides ?                                                                  
 6. for numeric primitives, if most significant bit (the leftmost bit) is 1 - its for positive or negative number ?
 7. How to recognize primitive data types ?                                                                        
-8. How many bits is a Byte ?                                                                                      
+8. How many bits is a Byte ? 
+9. Does every class including abstract class need to have constructor ?                                          
+10. Do Interfaces has constructor ? 
+11. When is default constructor Generated ?
+12. Can you call constructor from the Method ? 
+13. From wollowing symbols what is operator ? 
+14. From wollowing symbols what is operand ?
+15. Encapsulation ensures that 
+16. The package declaration can never occur after an import statement.
+17. A class may contain both static and non-static variables and both static and non-static methods ?
