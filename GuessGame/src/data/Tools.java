@@ -11,7 +11,7 @@ public class Tools {
     private String filePostfix="java";
 
     private static Stats gameStat;
-
+    
     public Stats getGameStat() {
         return gameStat;
     }

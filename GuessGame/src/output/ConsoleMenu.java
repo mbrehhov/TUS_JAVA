@@ -11,8 +11,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 public class ConsoleMenu {
@@ -157,11 +160,14 @@ public class ConsoleMenu {
             String question = quiz.readFile(-1, Tools.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here later
             String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
+
+
             String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
             
-
-            
             Tools.getInstance().getGameStat().getJTextArea().setText(question);
+
+            splitPopulateOptions(options);
+
             Tools.getInstance().getGameStat()
                     .setQuestionInProcess(question);
             
@@ -374,7 +380,7 @@ public class ConsoleMenu {
     public EmptyPage getEmptyPage() {
         return emptyPage;
     }
-    public void newGame(JTextArea questions)
+    public void newGame(JTextArea questions, List<JRadioButton> options)
     {
         Stats stats = Tools.getInstance().getGameStat();
 
@@ -382,6 +388,7 @@ public class ConsoleMenu {
                             Tools.getInstance().setGameStat(new Stats());
                             Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             Tools.getInstance().getGameStat().setJTextArea(questions);
+                            Tools.getInstance().getGameStat().setOptions(options);
                             getQuestionOption(new Quiz());
                             //questions.setText(Tools.getInstance().getGameStat().getQuestionInProcess()); 
 
@@ -409,6 +416,33 @@ public class ConsoleMenu {
             }
 
         }
+    }
+
+    private void splitPopulateOptions(String options) {
+        String[] splittingOptions = options.substring(options.indexOf("#")+1).split("#");
+      
+        int counter = 0;
+        for (JRadioButton radioBtn : Tools.getInstance().getGameStat().getOptions()) {
+            radioBtn.setText(null);
+            if (!radioBtn.isEnabled()) {
+                radioBtn.setEnabled(true);
+              }
+            try {
+                radioBtn.setText(splittingOptions[counter]);
+
+            } catch (Exception e) {
+                        //bad approach - change later
+                        if (radioBtn.isEnabled()) {
+                            radioBtn.setEnabled(false);
+                          }
+                           
+            }
+
+            counter++;
+
+        }
+
+
     }
 
 }

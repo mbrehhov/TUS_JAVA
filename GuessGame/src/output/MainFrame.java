@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -29,6 +31,18 @@ public class MainFrame extends JPanel implements ActionListener {
     JLabel option2 = new JLabel("fff");
     JLabel option3 = new JLabel("ssdddddddddddddddddddddddddddddddddddddd\ndddddddddddddddddddddddddddds");
     JLabel option4 = new JLabel("aa");
+
+
+
+    List<JRadioButton> options = new ArrayList<>();
+    JRadioButton birdButton =  new JRadioButton("");
+    JRadioButton catButton = new JRadioButton("");
+    JRadioButton dogButton = new JRadioButton("");
+    JRadioButton rabbitButton = new JRadioButton("");
+
+
+
+ 
     JPanel mainp;
     
     public void guip() {
@@ -36,6 +50,11 @@ public class MainFrame extends JPanel implements ActionListener {
         f.setSize(800, 600);
         f.setVisible(true);
 
+        options.add(birdButton);
+        options.add(catButton);
+        options.add(dogButton);
+        options.add(rabbitButton);
+        
 
         //create a main paenl (with grid)
         mainp = new JPanel();
@@ -59,21 +78,17 @@ public class MainFrame extends JPanel implements ActionListener {
 
         
        // panelOptions.add( new JList<>(new String[]{option1.getText(),option2.getText(),option3.getText(),option4.getText()}));
-
-        JRadioButton birdButton = new JRadioButton(option1.getText());
+       
         birdButton.setMnemonic(KeyEvent.VK_B);
         birdButton.setActionCommand(option1.getText());
         birdButton.setSelected(true);
 
-        JRadioButton catButton = new JRadioButton(option2.getText());
         catButton.setMnemonic(KeyEvent.VK_C);
         catButton.setActionCommand(option2.getText());
 
-        JRadioButton dogButton = new JRadioButton(option3.getText());
         dogButton.setMnemonic(KeyEvent.VK_D);
         dogButton.setActionCommand(option3.getText());
 
-        JRadioButton rabbitButton = new JRadioButton(option4.getText());
         rabbitButton.setMnemonic(KeyEvent.VK_R);
         rabbitButton.setActionCommand(option4.getText());
 
@@ -169,9 +184,10 @@ public class MainFrame extends JPanel implements ActionListener {
 
         if (str.equals("new"))
         {
-            
+
+
             //start new game
-            new ConsoleMenu().newGame(questions);
+            new ConsoleMenu().newGame(questions,options);
             // get question into text area
             
             

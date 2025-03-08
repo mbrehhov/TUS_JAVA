@@ -1,5 +1,7 @@
 package data;
 
+import java.util.List;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 //this object helps to keep track of state of certain variables during game, like lives, enableQuestions..etc 
@@ -9,6 +11,9 @@ import javax.swing.JTextArea;
 public class Stats {
     private float score;
     private String questionInProcess;
+    private List<JRadioButton> options;
+    
+
     public String getQuestionInProcess() {
         return questionInProcess;
     }
@@ -86,6 +91,14 @@ public class Stats {
 
     public void setJTextArea(JTextArea jTextArea) {
         this.jTextArea = jTextArea;
+    }
+
+    public List<JRadioButton> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<JRadioButton> options) {
+        this.options = options;
     }
 
 }
