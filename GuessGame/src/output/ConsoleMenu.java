@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.swing.JTextArea;
+
 public class ConsoleMenu {
 
     StringBuilder title = null;
@@ -158,11 +160,15 @@ public class ConsoleMenu {
             String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
             
 
-
+            
+            Tools.getInstance().getGameStat().getJTextArea().setText(question);
+            Tools.getInstance().getGameStat()
+                    .setQuestionInProcess(question);
+            
             Tools.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
             
-            move(question, options);
+            //move(question, options);
 
         } catch (Exception e) {
             // ignore at the moment
@@ -337,11 +343,11 @@ public class ConsoleMenu {
         Tools.getInstance().getGameStat().setScore(0);
         Tools.getInstance().setGameStat(null);
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
         // clear page part
-        output(this.getEmptyPage());
-        output();
+       // output(this.getEmptyPage());
+       // output();
 
     }
 
@@ -368,8 +374,26 @@ public class ConsoleMenu {
     public EmptyPage getEmptyPage() {
         return emptyPage;
     }
+    public void newGame(JTextArea questions)
+    {
+        Stats stats = Tools.getInstance().getGameStat();
 
-    private void answerToQuestion(char selection) {
+                        if (stats == null || stats.isQuestionsEnabled()) {
+                            Tools.getInstance().setGameStat(new Stats());
+                            Tools.getInstance().getGameStat().setQuestionsEnabled(false);
+                            Tools.getInstance().getGameStat().setJTextArea(questions);
+                            getQuestionOption(new Quiz());
+                            //questions.setText(Tools.getInstance().getGameStat().getQuestionInProcess()); 
+
+                            var time = new Timing(this); // class that supports threading
+                            Tools.getInstance().getGameStat().setTiming(time);
+                            var childThread = new Thread(time); // child thread
+                            childThread.start();
+                            Tools.getInstance().getGameStat().setChildThread(childThread); // to access eventually
+
+                        }
+    }
+    public void answerToQuestion(char selection) {
         Stats stats = Tools.getInstance().getGameStat();
 
         if (stats != null || stats.isQuestionsEnabled() == false) {
