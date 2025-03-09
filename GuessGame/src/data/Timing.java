@@ -58,7 +58,7 @@ public class Timing implements Runnable {
                 if (looping)
                     {
                         Tools.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
-                        cm.output(cm.getQuestionPage());
+                        //cm.output(cm.getQuestionPage());
                     }
                     
 
@@ -79,7 +79,7 @@ public class Timing implements Runnable {
         var currentLives = Tools.getInstance().getGameStat().getLives();
         if (currentLives == 0) {
             Thread.currentThread().interrupt();
-            cm.leaveGameToMainMenu();
+           cm.leaveGameToMainMenu();
         }
         if (currentLives > 0) {
             Tools.getInstance().getGameStat().setLives(currentLives - 1);

@@ -1,17 +1,17 @@
-1#A - 3 public classes #B - 1 public class#C - As many as you want#D - none Public class is security security threat 
-2#A - WRITE OPEN READ ALWAYS#B - WRITE ONCE RUN ANYWHERE#C - WRITE ONCE READ ANYWHERE#D - WRITE ON READ OUT          
-3#A - classcode #B - interface#C - bytecode#D - none, it runs the class file                                        
-4#A - JVM#B -MVJ#C - JIN#D - MVJ                                                                                     
-5#A - 2#B - 4#C - 6#D - 8                                                                                            
-6#A - positive#B - negative                                                                                          
-7#A - they look primitive #B some of them are lowercased #C all of them are lowercased #D none of them are lowercased
-8#A - 2#B - 6#C - 8#D - 10   
-9#A - yes#B - no                                                                                                 
-10#A - yes#B - no                                                                                                                      
-11#A - When class does not have any constructor defined. #BWhen class has no arg constructor. #C always #D never
-12#A - yes#B - no                                                                                             
-13#A - +#B - Any Number ex. 3,4                                                                                    
-14#A - +#B - Any Number ex. 3,4                                                                                     
-15#A classes are able to inherit functionality from other classes. #Bclasses expose only certain fields and methods to other classes for access. #C - classes designate certain methods to be abstract and let them be implemented by subclasses. #D a method that takes a class X object as a parameter can be passed an object of a subclass of X.
-16#A - yes#B - no            
-17#A - yes#B - no                                                                                                             
+1#A 3 public classes #B 1 public class#C As many as you want#D none Public class is security security threat 
+2#A WRITE OPEN READ ALWAYS#B WRITE ONCE RUN ANYWHERE#C WRITE ONCE READ ANYWHERE#D WRITE ON READ OUT          
+3#A classcode #B interface#C bytecode#D none, it runs the class file                                        
+4#A JVM#B -MVJ#C JIN#D MVJ                                                                                     
+5#A 2#B 4#C 6#D 8                                                                                            
+6#A positive#B negative                                                                                          
+7#A they look primitive #B some of them are lowercased #C all of them are lowercased #D none of them are lowercased
+8#A 2#B 6#C 8#D 10   
+9#A yes#B no                                                                                                 
+10#A yes#B no                                                                                                                      
+11#A When class does not have any constructor defined. #BWhen class has no arg constructor. #C always #D never
+12#A yes#B no                                                                                             
+13#A +#B Any Number ex. 3,4                                                                                    
+14#A +#B Any Number ex. 3,4                                                                                     
+15#A classes are able to inherit functionality from other classes. #B classes expose only certain fields and methods to other classes for access. #C classes designate certain methods to be abstract and let them be implemented by subclasses. #D a method that takes a class X object as a parameter can be passed an object of a subclass of X.
+16#A yes#B no            
+17#A yes#B no                                                                                                             

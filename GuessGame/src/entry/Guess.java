@@ -1,11 +1,11 @@
 package entry;
 
-import output.ConsoleMenu;
+import output.MainFrame;
 
 public class Guess {
     public static void main(String[] args) throws Exception {
-        
-        new ConsoleMenu().execute();
+        new MainFrame().guip();
+        //new ConsoleMenu().execute();
     }
    
 }

@@ -11,7 +11,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
 
 public class ConsoleMenu {
 
@@ -155,14 +160,21 @@ public class ConsoleMenu {
             String question = quiz.readFile(-1, Tools.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here later
             String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
+
+
             String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
             
+            Tools.getInstance().getGameStat().getJTextArea().setText(question);
 
+            splitPopulateOptions(options);
 
+            Tools.getInstance().getGameStat()
+                    .setQuestionInProcess(question);
+            
             Tools.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
             
-            move(question, options);
+            //move(question, options);
 
         } catch (Exception e) {
             // ignore at the moment
@@ -337,11 +349,11 @@ public class ConsoleMenu {
         Tools.getInstance().getGameStat().setScore(0);
         Tools.getInstance().setGameStat(null);
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        //System.out.print("\033[H\033[2J");
+        //System.out.flush();
         // clear page part
-        output(this.getEmptyPage());
-        output();
+       // output(this.getEmptyPage());
+       // output();
 
     }
 
@@ -368,8 +380,27 @@ public class ConsoleMenu {
     public EmptyPage getEmptyPage() {
         return emptyPage;
     }
+    public void newGame(JTextArea questions, Set<JRadioButton> options)
+    {
+        Stats stats = Tools.getInstance().getGameStat();
 
-    private void answerToQuestion(char selection) {
+                        if (stats == null || stats.isQuestionsEnabled()) {
+                            Tools.getInstance().setGameStat(new Stats());
+                            Tools.getInstance().getGameStat().setQuestionsEnabled(false);
+                            Tools.getInstance().getGameStat().setJTextArea(questions);
+                            Tools.getInstance().getGameStat().setOptions(options);
+                            getQuestionOption(new Quiz());
+                            //questions.setText(Tools.getInstance().getGameStat().getQuestionInProcess()); 
+
+                            var time = new Timing(this); // class that supports threading
+                            Tools.getInstance().getGameStat().setTiming(time);
+                            var childThread = new Thread(time); // child thread
+                            childThread.start();
+                            Tools.getInstance().getGameStat().setChildThread(childThread); // to access eventually
+
+                        }
+    }
+    public void answerToQuestion(char selection) {
         Stats stats = Tools.getInstance().getGameStat();
 
         if (stats != null || stats.isQuestionsEnabled() == false) {
@@ -385,6 +416,35 @@ public class ConsoleMenu {
             }
 
         }
+    }
+
+    private void splitPopulateOptions(String options) {
+        String[] splittingOptions = options.substring(options.indexOf("#")+1).split("#");
+      
+        int counter = 0;
+        for (JRadioButton radioBtn : Tools.getInstance().getGameStat().getOptions()) {
+            if (!radioBtn.isEnabled()) {
+                radioBtn.setEnabled(true);
+              }
+              radioBtn.setText(null);
+
+            try {
+                radioBtn.setText(splittingOptions[counter].substring(1));
+                radioBtn.setName(splittingOptions[counter].substring(0,1));
+
+
+            } catch (Exception e) {
+                        //bad approach - change later
+                        if (radioBtn.isEnabled()) {
+                            radioBtn.setEnabled(false);
+                            radioBtn.setName(null);
+                          }
+                           
+            }
+            counter++;
+        }
+
+
     }
 
 }
