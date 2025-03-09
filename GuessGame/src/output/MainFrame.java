@@ -1,5 +1,6 @@
 package output;
 
+import data.Tools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -9,13 +10,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -27,14 +27,9 @@ public class MainFrame extends JPanel implements ActionListener {
 
     JFrame f;
     JButton button1, button2;
-    JLabel option1 = new JLabel("tests");
-    JLabel option2 = new JLabel("fff");
-    JLabel option3 = new JLabel("ssdddddddddddddddddddddddddddddddddddddd\ndddddddddddddddddddddddddddds");
-    JLabel option4 = new JLabel("aa");
+    
 
-
-
-    List<JRadioButton> options = new ArrayList<>();
+    Set<JRadioButton> options = new HashSet<>();
     JRadioButton birdButton =  new JRadioButton("");
     JRadioButton catButton = new JRadioButton("");
     JRadioButton dogButton = new JRadioButton("");
@@ -80,18 +75,16 @@ public class MainFrame extends JPanel implements ActionListener {
        // panelOptions.add( new JList<>(new String[]{option1.getText(),option2.getText(),option3.getText(),option4.getText()}));
        
         birdButton.setMnemonic(KeyEvent.VK_B);
-        birdButton.setActionCommand(option1.getText());
+        //birdButton.setActionCommand(option1.getText());
         birdButton.setSelected(true);
 
         catButton.setMnemonic(KeyEvent.VK_C);
-        catButton.setActionCommand(option2.getText());
-
+        //catButton.setActionCommand(option2.getText());
         dogButton.setMnemonic(KeyEvent.VK_D);
-        dogButton.setActionCommand(option3.getText());
+        //dogButton.setActionCommand(option3.getText());
 
         rabbitButton.setMnemonic(KeyEvent.VK_R);
-        rabbitButton.setActionCommand(option4.getText());
-
+        //rabbitButton.setActionCommand(option4.getText());
  
      //Group the radio buttons.
          ButtonGroup group = new ButtonGroup();
@@ -188,22 +181,19 @@ public class MainFrame extends JPanel implements ActionListener {
 
             //start new game
             new ConsoleMenu().newGame(questions,options);
-            // get question into text area
             
             
-            // Tools.getInstance().getGameStat()
-            //         .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
-
-                    //save reference of textarea to gamestat
-
-
-
-
-            
-                    mainp.setBackground(Color.red);
+            mainp.setBackground(Color.red);
         } else if (str.equals("Submit")) {
 
-            questions.setText("SUbmit");
+            
+            for (JRadioButton jRadioButton : options) {
+                if(jRadioButton.isSelected())
+                {
+                    System.out.println(jRadioButton.getName());
+                    System.out.println(Tools.getInstance().getGameStat().getCurrentQuestionAnswer());
+                }
+            }
 
             mainp.setBackground(Color.green);
         } else if (str.equals("Quit"))

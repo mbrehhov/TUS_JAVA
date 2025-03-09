@@ -1,6 +1,6 @@
 package data;
 
-import java.util.List;
+import java.util.Set;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 public class Stats {
     private float score;
     private String questionInProcess;
-    private List<JRadioButton> options;
+    private Set<JRadioButton> options;
     
 
     public String getQuestionInProcess() {
@@ -93,11 +93,11 @@ public class Stats {
         this.jTextArea = jTextArea;
     }
 
-    public List<JRadioButton> getOptions() {
+    public Set<JRadioButton> getOptions() {
         return options;
     }
 
-    public void setOptions(List<JRadioButton> options) {
+    public void setOptions(Set<JRadioButton> options) {
         this.options = options;
     }
 

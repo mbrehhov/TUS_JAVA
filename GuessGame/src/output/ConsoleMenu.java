@@ -380,7 +380,7 @@ public class ConsoleMenu {
     public EmptyPage getEmptyPage() {
         return emptyPage;
     }
-    public void newGame(JTextArea questions, List<JRadioButton> options)
+    public void newGame(JTextArea questions, Set<JRadioButton> options)
     {
         Stats stats = Tools.getInstance().getGameStat();
 
@@ -423,23 +423,25 @@ public class ConsoleMenu {
       
         int counter = 0;
         for (JRadioButton radioBtn : Tools.getInstance().getGameStat().getOptions()) {
-            radioBtn.setText(null);
             if (!radioBtn.isEnabled()) {
                 radioBtn.setEnabled(true);
               }
+              radioBtn.setText(null);
+
             try {
-                radioBtn.setText(splittingOptions[counter]);
+                radioBtn.setText(splittingOptions[counter].substring(1));
+                radioBtn.setName(splittingOptions[counter].substring(0,1));
+
 
             } catch (Exception e) {
                         //bad approach - change later
                         if (radioBtn.isEnabled()) {
                             radioBtn.setEnabled(false);
+                            radioBtn.setName(null);
                           }
                            
             }
-
             counter++;
-
         }
 
 
