@@ -3,13 +3,19 @@ package output;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -20,6 +26,12 @@ public class GamePanel {
  JPanel mainp;
  JTextArea jTextAreaQuestions;
  Set<JRadioButton> options;
+ List<JLabel> hearts  = new ArrayList<>();
+ JLabel timeLabel;
+
+    public List<JLabel> getHearts() {
+    return hearts;
+}
 
     public GamePanel(MainFrame mainFrame)
     {
@@ -110,6 +122,15 @@ public class GamePanel {
 
         JPanel panel3  = new JPanel();
 
+
+        timeLabel = new JLabel("Timel!",JLabel.RIGHT);
+        timeLabel.setVerticalAlignment(JLabel.TOP);
+        timeLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
+        timeLabel.setPreferredSize(new Dimension(250, 100));
+        timeLabel.setForeground(new Color(70, 90, 40));
+        timeLabel.setBackground(new Color(100, 20, 70));
+
+
         //button1 = new JButton("new");
         button2 = new JButton("Submit");
         //button1.addActionListener(mainFrame);
@@ -118,14 +139,23 @@ public class GamePanel {
         //panel3.add(button1);
         
         jTextAreaQuestions.setEditable(false);
+        panel3.add(timeLabel);
 
-       
         panel3.add(button2);
 
         
         // setbackground of panel
         panel3.setBackground(Color.BLACK);
+        String imgPath = System.getProperty("user.dir") + "/img/Hearth.png";
+        
+            for (int i = 0; i < 4; i++) {
+                JLabel heart = new JLabel(new ImageIcon(imgPath));
+                heart.setVisible(false);
+                hearts.add(heart);
+                panel3.add(heart);
+            }
 
+        
         mainp.add(panel3);
 
     }
@@ -140,6 +170,10 @@ public class GamePanel {
 
     public Set<JRadioButton> getOptions() {
         return options;
+    }
+
+    public JLabel getTimeLabel() {
+        return timeLabel;
     }
    
 

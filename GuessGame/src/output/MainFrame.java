@@ -55,7 +55,7 @@ public class MainFrame extends JPanel implements ActionListener {
             //change panel
             // start new game
             cm = new ConsoleMenu();
-            cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions());
+            cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(),gp.getHearts(),gp.getTimeLabel());
 
         } else if (str.equals("Submit")) {
 
@@ -65,6 +65,8 @@ public class MainFrame extends JPanel implements ActionListener {
                     System.out.println(Tools.getInstance().getGameStat().getCurrentQuestionAnswer());
 
                     cm.answerToQuestion(jRadioButton.getName().charAt(0));
+
+                    System.out.println("current lives"+ Tools.getInstance().getGameStat().getLives());
 
                     break;
                 }

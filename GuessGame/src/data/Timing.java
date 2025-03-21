@@ -1,5 +1,7 @@
 package data;
 
+import java.util.List;
+import javax.swing.JLabel;
 import output.ConsoleMenu;
 /**
  * # Timing class Example
@@ -55,6 +57,7 @@ public class Timing implements Runnable {
                 }
                 Thread.sleep(1000);
                 time++;
+                Tools.getInstance().getGameStat().getTimeLabel().setText(String.valueOf(time));
                 if (looping)
                     {
                         Tools.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
@@ -77,16 +80,44 @@ public class Timing implements Runnable {
 
     private void deductLive() {
         var currentLives = Tools.getInstance().getGameStat().getLives();
+        List<JLabel> hearts = Tools.getInstance().getGameStat().getHearts();        ;
+        
+        
         if (currentLives == 0) {
+
+            for (JLabel heart : hearts) {
+                if(heart.isVisible())
+                {   
+                    heart.setVisible(false);
+                    break;
+                }
+
+            }
+
             Thread.currentThread().interrupt();
            cm.leaveGameToMainMenu();
         }
         if (currentLives > 0) {
+
             Tools.getInstance().getGameStat().setLives(currentLives - 1);
             cm.getQuestionOption(new Quiz());
 
-        }
+            for (JLabel heart : hearts) {
+                if(heart.isVisible())
+                {
+                    heart.setVisible(false);
+                    break;
+                }
 
+            }
+
+         
+        }
+ 
+       
+
+
+     
     }
 
     public boolean isNewQuestion() {

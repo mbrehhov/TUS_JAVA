@@ -32,7 +32,7 @@ public class ConsoleMenu {
     private TitlePage titlePage = new TitlePage();
     private HScorePage hScorePage = new HScorePage(highScore);
     private QuestionPage questionPage = new QuestionPage();
-    private EmptyPage emptyPage = new EmptyPage();
+  //  private EmptyPage emptyPage = new EmptyPage();
                 Set<String> a = new HashSet<String>();
 
     public void execute() {
@@ -41,7 +41,7 @@ public class ConsoleMenu {
         pages.add(titlePage);
         pages.add(hScorePage);
         pages.add(questionPage);
-        pages.add(emptyPage);
+      //  pages.add(emptyPage);
 
         output();
 
@@ -124,14 +124,14 @@ public class ConsoleMenu {
                             showScore = false;
                             showTitle = true;
 
-                            output(this.getEmptyPage());
+                            //output(this.getEmptyPage());
                             output(this.gethScorePage());
 
                         } else if (showTitle) {
                             showScore = true;
 
                             showTitle = false;
-                            output(this.getEmptyPage());
+                            //output(this.getEmptyPage());
                             output();
 
                         }
@@ -245,43 +245,17 @@ public class ConsoleMenu {
 
         }
 
-        // final output
-        // attempt is to save two dim values into hashmap and check if someting changes
-        // in array..
-        // and only draw in cases changes are detected.
-        // Funcionality is not finished. At the moment it has not achived that goal.
-        {
-            // String[][] prevstate = Tools.getInstance().getSnapshot();
-            for (int row = 0; row < rows; row++) {
-                for (int column = 0; column < columns; column++) {
-
-                    if (twoDimValues.get(String.valueOf(row) + String.valueOf(column)) == null || !twoDimValues
-                            .get(String.valueOf(row) + String.valueOf(column)).equals(twoDim[row][column])) {
-                        twoDimValues.put((String.valueOf(row) + String.valueOf(column)), twoDim[row][column]);
-                        System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
-
-                    } else
-                        System.out.print(twoDimValues.get(String.valueOf(row) + String.valueOf(column)));
-
-                }
-                // System.out.print("\u001B[A");
-
-                System.out.println("");
-            }
-
-        }
-
     }
 
     private void move(String... strData) {
         if (strData.length == 1) {
-            output(this.getEmptyPage());
+           // output(this.getEmptyPage());
             twoDim[3][1] = strData[0];
          
             output(this.getQuestionPage());
 
         } else {
-            output(this.getEmptyPage());
+           //output(this.getEmptyPage());
 
             twoDim[3][1] = strData[0];
             if (strData[1] != null) {
@@ -376,20 +350,27 @@ public class ConsoleMenu {
         return questionPage;
     }
 
-    public EmptyPage getEmptyPage() {
-        return emptyPage;
-    }
-    public void newGame(JTextArea questions, Set<JRadioButton> options)
+   // public EmptyPage getEmptyPage() {
+    //    return emptyPage;
+    //}
+    public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel)
     {
         Stats stats = Tools.getInstance().getGameStat();
 
                         if (stats == null || stats.isQuestionsEnabled()) {
                             Tools.getInstance().setGameStat(new Stats());
+                            Tools.getInstance().getGameStat().setHearts(hearts);
+                            Tools.getInstance().getGameStat().setTimeLabel(timeLabel);
                             Tools.getInstance().getGameStat().setQuestionsEnabled(false);
                             Tools.getInstance().getGameStat().setJTextArea(questions);
                             Tools.getInstance().getGameStat().setOptions(options);
                             getQuestionOption(new Quiz());
                             //questions.setText(Tools.getInstance().getGameStat().getQuestionInProcess()); 
+                        
+                            //enable hearts 
+                            for (int i = 0; i <= Tools.getInstance().getGameStat().getLives(); i++) {
+                                hearts.get(i).setVisible(true);
+                            }
 
                             var time = new Timing(this); // class that supports threading
                             Tools.getInstance().getGameStat().setTiming(time);

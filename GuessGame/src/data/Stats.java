@@ -1,6 +1,8 @@
 package data;
 
+import java.util.List;
 import java.util.Set;
+import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
@@ -12,8 +14,9 @@ public class Stats {
     private float score;
     private String questionInProcess;
     private Set<JRadioButton> options;
+    private List<JLabel> hearts;
+    private JLabel timeLabel;
     
-
     public String getQuestionInProcess() {
         return questionInProcess;
     }
@@ -99,6 +102,22 @@ public class Stats {
 
     public void setOptions(Set<JRadioButton> options) {
         this.options = options;
+    }
+
+    public List<JLabel> getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(List<JLabel> hearts) {
+        this.hearts = hearts;
+    }
+
+    public JLabel getTimeLabel() {
+        return timeLabel;
+    }
+
+    public void setTimeLabel(JLabel timeLabel) {
+        this.timeLabel = timeLabel;
     }
 
 }
