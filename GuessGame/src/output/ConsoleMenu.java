@@ -20,7 +20,6 @@ import javax.swing.JTextArea;
 
 public class ConsoleMenu {
 
-    StringBuilder title = null;
     StringBuilder listHighScore = null;
     private Score highScore = new Score();
     private String[][] twoDim = null;
