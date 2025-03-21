@@ -18,15 +18,18 @@ public class IntroPanel extends JPanel {
     }
 
 
-    public IntroPanel() {
+    public IntroPanel(MainFrame mainFrame) {
         introPanel = new JPanel(new BorderLayout());
 
 
         
-    JButton button = new JButton("new game");
+      JButton button = new JButton("new game");
       button.setBackground(Color.blue);
       button.setForeground(Color.white);
     
+      button.addActionListener(mainFrame);
+
+
       JButton score = new JButton("high score");
       button.setBackground(Color.blue);
       button.setForeground(Color.white);

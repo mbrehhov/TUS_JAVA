@@ -34,7 +34,8 @@ public class GamePanel {
 
          jTextAreaQuestions = new JTextArea(10, 40);  // for question panel
 
-        JButton button1, button2;
+        //JButton button1, button2;
+        JButton button2;
     
 
         options = new HashSet<>();
@@ -109,12 +110,12 @@ public class GamePanel {
 
         JPanel panel3  = new JPanel();
 
-        button1 = new JButton("new");
+        //button1 = new JButton("new");
         button2 = new JButton("Submit");
-        button1.addActionListener(mainFrame);
+        //button1.addActionListener(mainFrame);
         button2.addActionListener(mainFrame);
         
-        panel3.add(button1);
+        //panel3.add(button1);
         
         jTextAreaQuestions.setEditable(false);
 

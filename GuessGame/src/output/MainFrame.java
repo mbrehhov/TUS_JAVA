@@ -19,7 +19,7 @@ public class MainFrame extends JPanel implements ActionListener {
 
     public void guip() {
         gp = new GamePanel(this); // add to list
-        ip = new IntroPanel();
+        ip = new IntroPanel(this);
         mainFrame = new JFrame();
         mainFrame.setSize(800, 600);
         mainFrame.setVisible(true);
@@ -49,8 +49,10 @@ public class MainFrame extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
-        if (str.equals("new")) {
-
+        if (str.equals("new game")) {
+            mainFrame.remove(ip.getIntroPanel());
+            mainFrame.add(gp.getMainp());
+            //change panel
             // start new game
             cm = new ConsoleMenu();
             cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions());
