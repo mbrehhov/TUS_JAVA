@@ -11,12 +11,14 @@ import javax.swing.JTextArea;
 // object itelf should be kept within singleton class and called to update stats
 
 public class Stats {
+  
+   
     private float score;
     private String questionInProcess;
     private Set<JRadioButton> options;
     private List<JLabel> hearts;
     private JLabel timeLabel;
-    
+    private boolean answerSubmited; // 
     public String getQuestionInProcess() {
         return questionInProcess;
     }
@@ -118,6 +120,14 @@ public class Stats {
 
     public void setTimeLabel(JLabel timeLabel) {
         this.timeLabel = timeLabel;
+    }
+
+    public boolean isAnswerSubmited() {
+        return answerSubmited;
+    }
+
+    public void setAnswerSubmited(boolean answerSubmited) {
+        this.answerSubmited = answerSubmited;
     }
 
 }

@@ -44,12 +44,26 @@ public class Timing implements Runnable {
                 // check if new question was requested (ex. user entered correctly answer)
                 if (isNewQuestion()) {
                     time = 0;
+
+                    if(Tools.getInstance().getGameStat().isAnswerSubmited())
+                    {
+                        Tools.getInstance().getGameStat().setAnswerSubmited(false);
+                    }
+
+                    //Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
                     setNewQuestion(false); // reset
                     cm.getQuestionOption(new Quiz());
 
                 }
                 if (isWrongAnswer()) {
                     time = 0;
+                    if(Tools.getInstance().getGameStat().isAnswerSubmited())
+                    {
+                        Tools.getInstance().getGameStat().setAnswerSubmited(false);
+                    }
+
+                    //Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
+
                     setWrongAnswer(false); // reset
                     deductLive();
                     cm.getQuestionOption(new Quiz());
@@ -57,7 +71,11 @@ public class Timing implements Runnable {
                 }
                 Thread.sleep(1000);
                 time++;
-                Tools.getInstance().getGameStat().getTimeLabel().setText(String.valueOf(time));
+                
+                if(Tools.getInstance().getGameStat()!=null && !Tools.getInstance().getGameStat().isAnswerSubmited())
+                {
+                Tools.getInstance().getGameStat().getTimeLabel().setText(String.valueOf(time));    
+                }
                 if (looping)
                     {
                         Tools.getInstance().getGameStat().setCurrentTime(String.valueOf(time));

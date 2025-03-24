@@ -123,7 +123,7 @@ public class GamePanel {
         JPanel panel3  = new JPanel();
 
 
-        timeLabel = new JLabel("Timel!",JLabel.RIGHT);
+        timeLabel = new JLabel("",JLabel.RIGHT);
         timeLabel.setVerticalAlignment(JLabel.TOP);
         timeLabel.setFont(new Font("Verdana", Font.PLAIN, 20));
         timeLabel.setPreferredSize(new Dimension(250, 100));

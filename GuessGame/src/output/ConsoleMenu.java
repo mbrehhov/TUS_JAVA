@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
@@ -305,6 +306,7 @@ public class ConsoleMenu {
     public void leaveGameToMainMenu() {
 
         try {
+            
 
             // if(Tools.getInstance().getGameStat().getScore()!=0)
             highScore.evalueteTop(Tools.getInstance().getGameStat().getScore());
@@ -315,6 +317,7 @@ public class ConsoleMenu {
         } catch (InterruptedException e) {
             // System.out.println( e);
         }
+        Float f = Tools.getInstance().getGameStat().getScore();
 
         Tools.getInstance().getGameStat().setTiming(null);
         Tools.getInstance().getGameStat().setChildThread(null);
@@ -327,6 +330,12 @@ public class ConsoleMenu {
         // clear page part
        // output(this.getEmptyPage());
        // output();
+        MainFrame.JF.remove(MainFrame.GP.getMainp());
+        MainFrame.JF.add(MainFrame.IP.getIntroPanel());
+        MainFrame.JF.repaint();
+
+        JOptionPane.showMessageDialog(null, "Game Finished, you collected "+ f +" points");
+        
 
     }
 
@@ -383,7 +392,13 @@ public class ConsoleMenu {
     public void answerToQuestion(char selection) {
         Stats stats = Tools.getInstance().getGameStat();
 
-        if (stats != null || stats.isQuestionsEnabled() == false) {
+        if (stats != null && stats.isQuestionsEnabled() == false) {
+            
+            //tmp solution
+            Tools.getInstance().getGameStat().setAnswerSubmited(true);
+            Tools.getInstance().getGameStat().getTimeLabel().setText("");
+            
+            
             if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
                     .equalsIgnoreCase(String.valueOf(selection))) {
                 Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()

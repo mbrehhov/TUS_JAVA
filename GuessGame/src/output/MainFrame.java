@@ -1,6 +1,5 @@
 package output;
 
-import data.Tools;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,24 +10,42 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 public class MainFrame extends JPanel implements ActionListener {
+    // public static JFrame JF;
+    public static GamePanel GP;
+    public static IntroPanel IP;
+    public static JFrame JF;
 
+    
     JFrame mainFrame = null;
     ConsoleMenu cm = null;
     GamePanel gp = null;   
     IntroPanel ip = null;
+    public void refresh()
+    {
 
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
     public void guip() {
         gp = new GamePanel(this); // add to list
         ip = new IntroPanel(this);
+        
+       GP = gp;
+       IP = ip;
+       // Stats.JF = mainFrame;
+       // Stats.MF = this;
         mainFrame = new JFrame();
         mainFrame.setSize(800, 600);
-        mainFrame.setVisible(true);
-
+        JF = mainFrame;
         mainFrame.setResizable(false);
         //mainFrame.add(gp.getMainp());
-        mainFrame.add(ip.getIntroPanel());
+        JF.add(ip.getIntroPanel());
         GuessGameWindAdaptor gAdp = new GuessGameWindAdaptor(this);
         mainFrame.addWindowListener(gAdp);
+
+      // mainFrame.pack();
+        mainFrame.setVisible(true);
+
     }
 
     class GuessGameWindAdaptor extends WindowAdapter {
@@ -50,8 +67,10 @@ public class MainFrame extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("new game")) {
-            mainFrame.remove(ip.getIntroPanel());
-            mainFrame.add(gp.getMainp());
+            JF.remove(ip.getIntroPanel());
+            //JF.remove(0);
+            JF.add(gp.getMainp());
+            JF.repaint();
             //change panel
             // start new game
             cm = new ConsoleMenu();
@@ -61,12 +80,15 @@ public class MainFrame extends JPanel implements ActionListener {
 
             for (JRadioButton jRadioButton : gp.getOptions()) {
                 if (jRadioButton.isSelected()) {
-                    System.out.println(jRadioButton.getName());
-                    System.out.println(Tools.getInstance().getGameStat().getCurrentQuestionAnswer());
-
+                    //System.out.println(jRadioButton.getName());
+                    //System.out.println(Tools.getInstance().getGameStat().getCurrentQuestionAnswer());
+                    
                     cm.answerToQuestion(jRadioButton.getName().charAt(0));
 
-                    System.out.println("current lives"+ Tools.getInstance().getGameStat().getLives());
+                   
+                    // gp.getTimeLabel().setVisible(false);
+
+                    //System.out.println("current lives"+ Tools.getInstance().getGameStat().getLives());
 
                     break;
                 }
