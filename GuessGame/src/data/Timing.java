@@ -2,7 +2,6 @@ package data;
 
 import java.util.List;
 import javax.swing.JLabel;
-import output.ConsoleMenu;
 /**
  * # Timing class Example
  *
@@ -13,7 +12,7 @@ import output.ConsoleMenu;
  */
 public class Timing implements Runnable {
     private volatile boolean looping = true;
-    private volatile ConsoleMenu cm;
+    private volatile Core cm;
     private volatile boolean newQuestion;
     private volatile boolean wrongAnswer;
     private int time;
@@ -22,7 +21,7 @@ public class Timing implements Runnable {
         return time;
     }
 
-    public Timing(ConsoleMenu cm) {
+    public Timing(Core cm) {
         super();
         this.cm = cm;
     }

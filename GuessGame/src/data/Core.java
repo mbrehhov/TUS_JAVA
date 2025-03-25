@@ -1,10 +1,4 @@
-package output;
-
-import data.Quiz;
-import data.Score;
-import data.Stats;
-import data.Timing;
-import data.Tools;
+package data;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,7 +10,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
-public class ConsoleMenu {
+import output.MainFrame;
+
+public class Core {
 
     private Score highScore = new Score();
     private String[][] twoDim = null;
