@@ -3,7 +3,6 @@ package core;
 import data.Quiz;
 import data.Score;
 import data.Stats;
-import data.Tools;
 import entry.MainFrame;
 import java.util.List;
 import java.util.Set;
@@ -14,29 +13,25 @@ import javax.swing.JTextArea;
 
 public class GameManager {
 
-    private Score highScore = new Score();
-
-    public void execute() {
-
-    }
+    private final Score highScore = new Score();
 
     public void getQuestionOption(Quiz quiz) {
         try {
-            String question = quiz.readFile(-1, Tools.getInstance().getJavaQuestions());
+            String question = quiz.readFile(-1, GameSingleton.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here
                                                                                          // later
-            String options = quiz.readFile(linenr, Tools.getInstance().getJavaOptions());
+            String options = quiz.readFile(linenr, GameSingleton.getInstance().getJavaOptions());
 
-            String correctAnswer = quiz.readFile(linenr, Tools.getInstance().getJavaAnswer());
+            String correctAnswer = quiz.readFile(linenr, GameSingleton.getInstance().getJavaAnswer());
 
-            Tools.getInstance().getGameStat().getJTextArea().setText(question);
+            GameSingleton.getInstance().getGameStat().getJTextArea().setText(question);
 
             splitPopulateOptions(options);
 
-            Tools.getInstance().getGameStat()
+            GameSingleton.getInstance().getGameStat()
                     .setQuestionInProcess(question);
 
-            Tools.getInstance().getGameStat()
+            GameSingleton.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
 
             // move(question, options);
@@ -51,20 +46,20 @@ public class GameManager {
 
         try {
             // if(Tools.getInstance().getGameStat().getScore()!=0)
-            highScore.evalueteTop(Tools.getInstance().getGameStat().getScore());
-            Tools.getInstance().getGameStat().getTiming().stopLoop();
-            Tools.getInstance().getGameStat().getChildThread().join();
+            highScore.evalueteTop(GameSingleton.getInstance().getGameStat().getScore());
+            GameSingleton.getInstance().getGameStat().getTiming().stopLoop();
+            GameSingleton.getInstance().getGameStat().getChildThread().join();
 
         } catch (InterruptedException e) {
             // System.out.println( e);
         }
-        Float f = Tools.getInstance().getGameStat().getScore();
+        Float f = GameSingleton.getInstance().getGameStat().getScore();
 
-        Tools.getInstance().getGameStat().setTiming(null);
-        Tools.getInstance().getGameStat().setChildThread(null);
+        GameSingleton.getInstance().getGameStat().setTiming(null);
+        GameSingleton.getInstance().getGameStat().setChildThread(null);
 
-        Tools.getInstance().getGameStat().setScore(0);
-        Tools.getInstance().setGameStat(null);
+        GameSingleton.getInstance().getGameStat().setScore(0);
+        GameSingleton.getInstance().setGameStat(null);
 
         MainFrame.JF.remove(MainFrame.GP.getMainp());
         MainFrame.JF.add(MainFrame.IP.getIntroPanel());
@@ -75,50 +70,50 @@ public class GameManager {
     }
 
     public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel) {
-        Stats stats = Tools.getInstance().getGameStat();
+        Stats stats = GameSingleton.getInstance().getGameStat();
 
         if (stats == null || stats.isQuestionsEnabled()) {
-            Tools.getInstance().setGameStat(new Stats());
-            Tools.getInstance().getGameStat().setHearts(hearts);
-            Tools.getInstance().getGameStat().setTimeLabel(timeLabel);
-            Tools.getInstance().getGameStat().setQuestionsEnabled(false);
-            Tools.getInstance().getGameStat().setJTextArea(questions);
-            Tools.getInstance().getGameStat().setOptions(options);
+            GameSingleton.getInstance().setGameStat(new Stats());
+            GameSingleton.getInstance().getGameStat().setHearts(hearts);
+            GameSingleton.getInstance().getGameStat().setTimeLabel(timeLabel);
+            GameSingleton.getInstance().getGameStat().setQuestionsEnabled(false);
+            GameSingleton.getInstance().getGameStat().setJTextArea(questions);
+            GameSingleton.getInstance().getGameStat().setOptions(options);
             getQuestionOption(new Quiz());
             // questions.setText(Tools.getInstance().getGameStat().getQuestionInProcess());
 
             // enable hearts
-            for (int i = 0; i <= Tools.getInstance().getGameStat().getLives(); i++) {
+            for (int i = 0; i <= GameSingleton.getInstance().getGameStat().getLives(); i++) {
                 hearts.get(i).setVisible(true);
             }
 
             var time = new GameThread(this); // class that supports threading
-            Tools.getInstance().getGameStat().setTiming(time);
+            GameSingleton.getInstance().getGameStat().setTiming(time);
             var childThread = new Thread(time); // child thread
             childThread.start();
-            Tools.getInstance().getGameStat().setChildThread(childThread); // to access eventually
+            GameSingleton.getInstance().getGameStat().setChildThread(childThread); // to access eventually
 
         }
     }
 
     public void answerToQuestion(char selection) {
-        Stats stats = Tools.getInstance().getGameStat();
+        Stats stats = GameSingleton.getInstance().getGameStat();
 
         if (stats != null && stats.isQuestionsEnabled() == false) {
 
             // tmp solution
-            Tools.getInstance().getGameStat().setAnswerSubmited(true);
-            Tools.getInstance().getGameStat().getTimeLabel().setText("");
+            GameSingleton.getInstance().getGameStat().setAnswerSubmited(true);
+            GameSingleton.getInstance().getGameStat().getTimeLabel().setText("");
 
-            if (Tools.getInstance().getGameStat().getCurrentQuestionAnswer()
+            if (GameSingleton.getInstance().getGameStat().getCurrentQuestionAnswer()
                     .equalsIgnoreCase(String.valueOf(selection))) {
-                Tools.getInstance().getGameStat().setScore(Tools.getInstance().getGameStat().getScore()
-                        + (float) Tools.getInstance().getGameStat().getTiming().getTime());
-                Tools.getInstance().getGameStat().getTiming().setNewQuestion(true);
+                GameSingleton.getInstance().getGameStat().setScore(GameSingleton.getInstance().getGameStat().getScore()
+                        + (float) GameSingleton.getInstance().getGameStat().getTiming().getTime());
+                GameSingleton.getInstance().getGameStat().getTiming().setNewQuestion(true);
 
             } else {
 
-                Tools.getInstance().getGameStat().getTiming().setWrongAnswer(true);
+                GameSingleton.getInstance().getGameStat().getTiming().setWrongAnswer(true);
             }
 
         }
@@ -128,7 +123,7 @@ public class GameManager {
         String[] splittingOptions = options.substring(options.indexOf("#") + 1).split("#");
 
         int counter = 0;
-        for (JRadioButton radioBtn : Tools.getInstance().getGameStat().getOptions()) {
+        for (JRadioButton radioBtn : GameSingleton.getInstance().getGameStat().getOptions()) {
             if (!radioBtn.isEnabled()) {
                 radioBtn.setEnabled(true);
             }

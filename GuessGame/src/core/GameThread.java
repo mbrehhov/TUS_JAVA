@@ -1,9 +1,9 @@
 package core;
 
 import data.Quiz;
-import data.Tools;
 import java.util.List;
 import javax.swing.JLabel;
+
 /**
  * # Timing class Example
  *
@@ -46,24 +46,22 @@ public class GameThread implements Runnable {
                 if (isNewQuestion()) {
                     time = 0;
 
-                    if(Tools.getInstance().getGameStat().isAnswerSubmited())
-                    {
-                        Tools.getInstance().getGameStat().setAnswerSubmited(false);
+                    if (GameSingleton.getInstance().getGameStat().isAnswerSubmited()) {
+                        GameSingleton.getInstance().getGameStat().setAnswerSubmited(false);
                     }
 
-                    //Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
+                    // Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
                     setNewQuestion(false); // reset
                     cm.getQuestionOption(new Quiz());
 
                 }
                 if (isWrongAnswer()) {
                     time = 0;
-                    if(Tools.getInstance().getGameStat().isAnswerSubmited())
-                    {
-                        Tools.getInstance().getGameStat().setAnswerSubmited(false);
+                    if (GameSingleton.getInstance().getGameStat().isAnswerSubmited()) {
+                        GameSingleton.getInstance().getGameStat().setAnswerSubmited(false);
                     }
 
-                    //Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
+                    // Tools.getInstance().getGameStat().getTimeLabel().setVisible(true);
 
                     setWrongAnswer(false); // reset
                     deductLive();
@@ -72,17 +70,15 @@ public class GameThread implements Runnable {
                 }
                 Thread.sleep(1000);
                 time++;
-                
-                if(Tools.getInstance().getGameStat()!=null && !Tools.getInstance().getGameStat().isAnswerSubmited())
-                {
-                Tools.getInstance().getGameStat().getTimeLabel().setText(String.valueOf(time));    
+
+                if (GameSingleton.getInstance().getGameStat() != null
+                        && !GameSingleton.getInstance().getGameStat().isAnswerSubmited()) {
+                    GameSingleton.getInstance().getGameStat().getTimeLabel().setText(String.valueOf(time));
                 }
-                if (looping)
-                    {
-                        Tools.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
-                        //cm.output(cm.getQuestionPage());
-                    }
-                    
+                if (looping) {
+                    GameSingleton.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
+                    // cm.output(cm.getQuestionPage());
+                }
 
                 if (time >= 14) {
                     time = 0;
@@ -98,15 +94,14 @@ public class GameThread implements Runnable {
     }
 
     private void deductLive() {
-        var currentLives = Tools.getInstance().getGameStat().getLives();
-        List<JLabel> hearts = Tools.getInstance().getGameStat().getHearts();        ;
-        
-        
+        var currentLives = GameSingleton.getInstance().getGameStat().getLives();
+        List<JLabel> hearts = GameSingleton.getInstance().getGameStat().getHearts();
+        ;
+
         if (currentLives == 0) {
 
             for (JLabel heart : hearts) {
-                if(heart.isVisible())
-                {   
+                if (heart.isVisible()) {
                     heart.setVisible(false);
                     break;
                 }
@@ -114,29 +109,23 @@ public class GameThread implements Runnable {
             }
 
             Thread.currentThread().interrupt();
-           cm.leaveGameToMainMenu();
+            cm.leaveGameToMainMenu();
         }
         if (currentLives > 0) {
 
-            Tools.getInstance().getGameStat().setLives(currentLives - 1);
+            GameSingleton.getInstance().getGameStat().setLives(currentLives - 1);
             cm.getQuestionOption(new Quiz());
 
             for (JLabel heart : hearts) {
-                if(heart.isVisible())
-                {
+                if (heart.isVisible()) {
                     heart.setVisible(false);
                     break;
                 }
 
             }
 
-         
         }
- 
-       
 
-
-     
     }
 
     public boolean isNewQuestion() {

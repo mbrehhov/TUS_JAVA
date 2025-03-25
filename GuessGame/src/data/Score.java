@@ -21,12 +21,11 @@ public record Score() {
         for (int i = 0; i < returnTopFive.size(); i++) {
             // later here add name of gamer also.
             multiObject[i] = new Object[2];
-     
-            String [] splitData = returnTopFive.get(i + 1).split("----");
+
+            String[] splitData = returnTopFive.get(i + 1).split("----");
 
             multiObject[i][0] = splitData[0];
             multiObject[i][1] = splitData[1];
-            
 
         }
 
