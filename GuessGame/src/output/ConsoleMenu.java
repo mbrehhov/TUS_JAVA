@@ -10,7 +10,6 @@ import interfaces.Imenu;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +30,7 @@ public class ConsoleMenu {
     private boolean showScore = true;
     private ArrayList<Imenu> pages = new ArrayList();
     private TitlePage titlePage = new TitlePage();
-    private HScorePage hScorePage = new HScorePage(highScore);
+    //private HScorePage hScorePage = new HScorePage(highScore);
     private QuestionPage questionPage = new QuestionPage();
   //  private EmptyPage emptyPage = new EmptyPage();
                 Set<String> a = new HashSet<String>();
@@ -40,7 +39,6 @@ public class ConsoleMenu {
           
 
         pages.add(titlePage);
-        pages.add(hScorePage);
         pages.add(questionPage);
       //  pages.add(emptyPage);
 
@@ -126,7 +124,7 @@ public class ConsoleMenu {
                             showTitle = true;
 
                             //output(this.getEmptyPage());
-                            output(this.gethScorePage());
+                            //output(this.gethScorePage());
 
                         } else if (showTitle) {
                             showScore = true;
@@ -351,9 +349,9 @@ public class ConsoleMenu {
         return titlePage;
     }
 
-    public HScorePage gethScorePage() {
-        return hScorePage;
-    }
+    // public HScorePage gethScorePage() {
+    //     return hScorePage;
+    // }
 
     public QuestionPage getQuestionPage() {
         return questionPage;

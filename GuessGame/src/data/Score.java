@@ -11,19 +11,26 @@ public record Score() {
     private static HashMap<Float, String> inputHashpmap = new HashMap<Float, String>(); // unorderd everything
     private static HashMap<Integer, String> returnTopFive = new HashMap<Integer, String>(); // ordered everything
 
-    public String getTopFive() {
+    public Object[][] getTopFive() {
 
         if (returnTopFive.isEmpty())
-            return "";
-        StringBuilder lines = new StringBuilder();
+            return null;
+
+        Object[][] multiObject = new Object[returnTopFive.size()][];
 
         for (int i = 0; i < returnTopFive.size(); i++) {
-            lines.append(returnTopFive.get(i + 1));
-            lines.append(System.getProperty("line.separator"));
+            // later here add name of gamer also.
+            multiObject[i] = new Object[2];
+     
+            String [] splitData = returnTopFive.get(i + 1).split("----");
+
+            multiObject[i][0] = splitData[0];
+            multiObject[i][1] = splitData[1];
+            
 
         }
 
-        return lines.toString();
+        return multiObject;
     }
 
     // idea is that every time new score is added

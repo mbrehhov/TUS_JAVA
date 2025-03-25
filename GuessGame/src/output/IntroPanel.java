@@ -30,10 +30,12 @@ public class IntroPanel extends JPanel {
       button.addActionListener(mainFrame);
 
 
-      JButton score = new JButton("high score");
+      JButton score = new JButton("High Score");
       button.setBackground(Color.blue);
-      button.setForeground(Color.white);
-    
+      button.setForeground(Color.BLACK);
+      score.addActionListener(mainFrame);
+
+
       JPanel bottomPanel = new JPanel(new FlowLayout());
       bottomPanel.add(score, BorderLayout.CENTER);
 

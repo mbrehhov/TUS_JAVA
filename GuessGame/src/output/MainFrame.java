@@ -1,5 +1,6 @@
 package output;
 
+import data.Score;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ public class MainFrame extends JPanel implements ActionListener {
     ConsoleMenu cm = null;
     GamePanel gp = null;   
     IntroPanel ip = null;
+    HSPanel ipp = null;
     public void refresh()
     {
 
@@ -29,7 +31,8 @@ public class MainFrame extends JPanel implements ActionListener {
     public void guip() {
         gp = new GamePanel(this); // add to list
         ip = new IntroPanel(this);
-        
+        ipp = new HSPanel(this);
+
        GP = gp;
        IP = ip;
        // Stats.JF = mainFrame;
@@ -68,15 +71,33 @@ public class MainFrame extends JPanel implements ActionListener {
         String str = e.getActionCommand();
         if (str.equals("new game")) {
             JF.remove(ip.getIntroPanel());
-            //JF.remove(0);
-            JF.add(gp.getMainp());
+            
             JF.repaint();
-            //change panel
+            JF.revalidate();
+             JF.add(gp.getMainp());
+             //JF.repaint();
+            JF.revalidate();
+             //change panel
             // start new game
-            cm = new ConsoleMenu();
-            cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(),gp.getHearts(),gp.getTimeLabel());
+             cm = new ConsoleMenu();
+             cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(),gp.getHearts(),gp.getTimeLabel());
 
-        } else if (str.equals("Submit")) {
+        } else
+        if (str.equals("High Score")) {
+            JF.remove(ip.getIntroPanel());
+           // JF.add(hp.getHSPanel());
+            //JF.add(gp.getMainp());
+
+            JF.repaint();
+            JF.revalidate();
+            
+            ipp.setData(new Score().getTopFive());
+            JF.add(ipp.getHSPanel());
+             //JF.repaint();
+            JF.revalidate();   
+
+        } else
+        if (str.equals("Submit")) {
 
             for (JRadioButton jRadioButton : gp.getOptions()) {
                 if (jRadioButton.isSelected()) {
@@ -95,7 +116,23 @@ public class MainFrame extends JPanel implements ActionListener {
             }
 
             // mainp.setBackground(Color.green);
-        } else if (str.equals("Quit"))
+        }
+        
+        
+        else
+        if (str.equals("back")) {
+            JF.remove(ipp.getHSPanel());
+            // JF.add(hp.getHSPanel());
+             //JF.add(gp.getMainp());
+ 
+             JF.repaint();
+             JF.revalidate();
+             
+             JF.add(ip.getIntroPanel());
+                        
+        }
+        
+        else if (str.equals("Quit"))
             mainFrame.setBackground(Color.blue);
     }
 
