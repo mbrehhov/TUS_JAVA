@@ -1,25 +1,16 @@
 package data;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import entry.MainFrame;
 import java.util.List;
 import java.util.Set;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
-import output.MainFrame;
-
 public class Core {
 
     private Score highScore = new Score();
-    private String[][] twoDim = null;
-    private HashMap<String, String> twoDimValues = new HashMap<String, String>();
-    private int rows = 15;
-    private int columns = 50;
-    Set<String> a = new HashSet<String>();
 
     public void execute() {
 
@@ -52,10 +43,6 @@ public class Core {
         }
     }
 
-    private void returnCursorOnePostion() {
-        System.out.print("\u001B[A"); // we moved next line, bringing coursor back
-    }
-
     public void leaveGameToMainMenu() {
 
         try {
@@ -77,25 +64,12 @@ public class Core {
         Tools.getInstance().getGameStat().setScore(0);
         Tools.getInstance().setGameStat(null);
 
-        // System.out.print("\033[H\033[2J");
-        // System.out.flush();
-        // clear page part
-        // output(this.getEmptyPage());
-        // output();
         MainFrame.JF.remove(MainFrame.GP.getMainp());
         MainFrame.JF.add(MainFrame.IP.getIntroPanel());
         MainFrame.JF.repaint();
 
         JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
 
-    }
-
-    public String[][] getTwoDim() {
-        return twoDim;
-    }
-
-    public HashMap<String, String> getTwoDimValues() {
-        return twoDimValues;
     }
 
     public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel) {
@@ -174,5 +148,4 @@ public class Core {
         }
 
     }
-
 }

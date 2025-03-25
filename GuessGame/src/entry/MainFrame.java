@@ -1,4 +1,4 @@
-package output;
+package entry;
 
 import data.Core;
 import data.Score;
@@ -10,6 +10,9 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import output.GamePanel;
+import output.HSPanel;
+import output.IntroPanel;
 
 public class MainFrame extends JPanel implements ActionListener {
     // public static JFrame JF;
