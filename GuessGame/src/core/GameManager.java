@@ -1,5 +1,9 @@
-package data;
+package core;
 
+import data.Quiz;
+import data.Score;
+import data.Stats;
+import data.Tools;
 import entry.MainFrame;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
-public class Core {
+public class GameManager {
 
     private Score highScore = new Score();
 
@@ -46,11 +50,9 @@ public class Core {
     public void leaveGameToMainMenu() {
 
         try {
-
             // if(Tools.getInstance().getGameStat().getScore()!=0)
             highScore.evalueteTop(Tools.getInstance().getGameStat().getScore());
             Tools.getInstance().getGameStat().getTiming().stopLoop();
-
             Tools.getInstance().getGameStat().getChildThread().join();
 
         } catch (InterruptedException e) {
@@ -90,7 +92,7 @@ public class Core {
                 hearts.get(i).setVisible(true);
             }
 
-            var time = new Timing(this); // class that supports threading
+            var time = new GameThread(this); // class that supports threading
             Tools.getInstance().getGameStat().setTiming(time);
             var childThread = new Thread(time); // child thread
             childThread.start();

@@ -1,5 +1,6 @@
 package data;
 
+import core.GameThread;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JLabel;
@@ -32,7 +33,7 @@ public class Stats {
     private boolean questionsEnabled;
     private int lives = 3;
     private Thread childThread;
-    private Timing timing;
+    private GameThread timing;
 
     public float getScore() {
         return score;
@@ -42,11 +43,11 @@ public class Stats {
         this.score = score;
     }
 
-    public Timing getTiming() {
+    public GameThread getTiming() {
         return timing;
     }
 
-    public void setTiming(Timing timing) {
+    public void setTiming(GameThread timing) {
         this.timing = timing;
     }
 

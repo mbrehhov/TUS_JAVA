@@ -1,6 +1,6 @@
 package entry;
 
-import data.Core;
+import core.GameManager;
 import data.Score;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ public class MainFrame extends JPanel implements ActionListener {
 
     
     JFrame mainFrame = null;
-    Core cm = null;
+    GameManager cm = null;
     GamePanel gp = null;   
     IntroPanel ip = null;
     HSPanel ipp = null;
@@ -83,7 +83,7 @@ public class MainFrame extends JPanel implements ActionListener {
             JF.revalidate();
              //change panel
             // start new game
-             cm = new Core();
+             cm = new GameManager();
              cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(),gp.getHearts(),gp.getTimeLabel());
 
         } else

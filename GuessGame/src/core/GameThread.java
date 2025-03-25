@@ -1,5 +1,7 @@
-package data;
+package core;
 
+import data.Quiz;
+import data.Tools;
 import java.util.List;
 import javax.swing.JLabel;
 /**
@@ -10,9 +12,9 @@ import javax.swing.JLabel;
  * - counts Time
  * - prints new questions
  */
-public class Timing implements Runnable {
+public class GameThread implements Runnable {
     private volatile boolean looping = true;
-    private volatile Core cm;
+    private volatile GameManager cm;
     private volatile boolean newQuestion;
     private volatile boolean wrongAnswer;
     private int time;
@@ -21,7 +23,7 @@ public class Timing implements Runnable {
         return time;
     }
 
-    public Timing(Core cm) {
+    public GameThread(GameManager cm) {
         super();
         this.cm = cm;
     }

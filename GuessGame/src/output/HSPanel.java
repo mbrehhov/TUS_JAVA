@@ -1,5 +1,6 @@
 package output;
 
+import entry.MainFrame;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
