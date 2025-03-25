@@ -1,6 +1,6 @@
 package output;
 
-import entry.MainFrame;
+import entry.GameFrame;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -17,7 +17,7 @@ public class HSPanel extends JPanel {
         return inPanel;
     }
 
-    public HSPanel(MainFrame mainFrame) {
+    public HSPanel(GameFrame mainFrame) {
         inPanel = new JPanel(new FlowLayout());
         data = new Object[0][0];
 
@@ -26,7 +26,7 @@ public class HSPanel extends JPanel {
 
 
            columns = new String[] {
-            "Id", "Name"
+            "level", "Id", "Name"
         };
         
          tableModel = new DefaultTableModel(data,columns);

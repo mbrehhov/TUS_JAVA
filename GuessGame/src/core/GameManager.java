@@ -3,7 +3,7 @@ package core;
 import data.Quiz;
 import data.Score;
 import data.Stats;
-import entry.MainFrame;
+import entry.GameFrame;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JLabel;
@@ -12,7 +12,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 public class GameManager {
-
+    GameFrame gameFrame;
+    public GameManager(GameFrame gameFrame)
+    {
+        this.gameFrame = gameFrame;
+    }
     private final Score highScore = new Score();
 
     public void getQuestionOption(Quiz quiz) {
@@ -61,9 +65,9 @@ public class GameManager {
         GameSingleton.getInstance().getGameStat().setScore(0);
         GameSingleton.getInstance().setGameStat(null);
 
-        MainFrame.JF.remove(MainFrame.GP.getMainp());
-        MainFrame.JF.add(MainFrame.IP.getIntroPanel());
-        MainFrame.JF.repaint();
+        gameFrame.getMainFrame().remove(gameFrame.getGp().getMainp());
+        gameFrame.getMainFrame().add(gameFrame.getIp().getIntroPanel());
+        gameFrame.getMainFrame().repaint();
 
         JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
 

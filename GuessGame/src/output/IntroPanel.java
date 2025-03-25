@@ -1,6 +1,6 @@
 package output;
 
-import entry.MainFrame;
+import entry.GameFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -19,7 +19,7 @@ public class IntroPanel extends JPanel {
     }
 
 
-    public IntroPanel(MainFrame mainFrame) {
+    public IntroPanel(GameFrame mainFrame) {
         introPanel = new JPanel(new BorderLayout());
 
 

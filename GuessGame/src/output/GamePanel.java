@@ -1,6 +1,6 @@
 package output;
 
-import entry.MainFrame;
+import entry.GameFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -34,7 +34,7 @@ public class GamePanel {
     return hearts;
 }
 
-    public GamePanel(MainFrame mainFrame)
+    public GamePanel(GameFrame mainFrame)
     {
              //create a main paenl (with grid)
         mainp = new JPanel();

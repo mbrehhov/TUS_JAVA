@@ -20,12 +20,14 @@ public record Score() {
 
         for (int i = 0; i < returnTopFive.size(); i++) {
             // later here add name of gamer also.
-            multiObject[i] = new Object[2];
+            multiObject[i] = new Object[3];
 
             String[] splitData = returnTopFive.get(i + 1).split("----");
 
-            multiObject[i][0] = splitData[0];
-            multiObject[i][1] = splitData[1];
+            multiObject[i][0] = Level.findLevel(Float.parseFloat(splitData[0])).getUrl();
+
+            multiObject[i][1] = splitData[0];
+            multiObject[i][2] = splitData[1];
 
         }
 

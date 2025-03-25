@@ -14,20 +14,48 @@ import output.GamePanel;
 import output.HSPanel;
 import output.IntroPanel;
 
-public class MainFrame extends JPanel implements ActionListener {
-    // public static JFrame JF;
-    public static GamePanel GP;
-    public static IntroPanel IP;
-    public static JFrame JF;
+public class GameFrame extends JPanel implements ActionListener {
+  
+    private GameManager cm = null;
+    private JFrame mainFrame = null;
+    private GamePanel gp = null;
+    private IntroPanel ip = null;
+    private HSPanel hsp = null;
 
-    JFrame mainFrame = null;
-    GameManager cm = null;
-    GamePanel gp = null;
-    IntroPanel ip = null;
-    HSPanel ipp = null;
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void setMainFrame(JFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
+
+    public GamePanel getGp() {
+        return gp;
+    }
+
+    public void setGp(GamePanel gp) {
+        this.gp = gp;
+    }
+
+    public IntroPanel getIp() {
+        return ip;
+    }
+
+    public void setIp(IntroPanel ip) {
+        this.ip = ip;
+    }
+
+    public HSPanel getHsp() {
+        return hsp;
+    }
+
+    public void setHsp(HSPanel hsp) {
+        this.hsp = hsp;
+    }
 
     public void refresh() {
-
+        
         mainFrame.revalidate();
         mainFrame.repaint();
     }
@@ -35,61 +63,51 @@ public class MainFrame extends JPanel implements ActionListener {
     public void guip() {
         gp = new GamePanel(this); // add to list
         ip = new IntroPanel(this);
-        ipp = new HSPanel(this);
+        hsp = new HSPanel(this);
 
-        GP = gp;
-        IP = ip;
-        // Stats.JF = mainFrame;
-        // Stats.MF = this;
         mainFrame = new JFrame();
         mainFrame.setSize(800, 600);
-        JF = mainFrame;
         mainFrame.setResizable(false);
-        // mainFrame.add(gp.getMainp());
-        JF.add(ip.getIntroPanel());
+        mainFrame.add(ip.getIntroPanel());
+        
         GuessGameWindAdaptor gAdp = new GuessGameWindAdaptor(this);
         mainFrame.addWindowListener(gAdp);
-
-        // mainFrame.pack();
         mainFrame.setVisible(true);
-
     }
 
     class GuessGameWindAdaptor extends WindowAdapter {
-        MainFrame f;
-
-        public GuessGameWindAdaptor(MainFrame f) {
+        GameFrame f;
+        public GuessGameWindAdaptor(GameFrame f) {
             this.f = f;
         }
-
         @Override
         public void windowClosing(WindowEvent we) {
             f.setVisible(false);
             System.exit(0);
         }
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String str = e.getActionCommand();
         if (str.equals("new game")) {
-            JF.remove(ip.getIntroPanel());
+            mainFrame.remove(ip.getIntroPanel());
 
-            JF.repaint();
-            JF.revalidate();
-            JF.add(gp.getMainp());
-            JF.revalidate();
-            cm = new GameManager();
+            mainFrame.repaint();
+            mainFrame.revalidate();
+            mainFrame.add(gp.getMainp());
+            // JF.repaint();
+            mainFrame.revalidate();
+            cm = new GameManager(this);
             cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(), gp.getHearts(), gp.getTimeLabel());
 
         } else if (str.equals("High Score")) {
-            JF.remove(ip.getIntroPanel());
-            JF.repaint();
-            JF.revalidate();
-            ipp.setData(new Score().getTopFive());
-            JF.add(ipp.getHSPanel());
-            JF.revalidate();
+            mainFrame.remove(ip.getIntroPanel());
+            mainFrame.repaint();
+            mainFrame.revalidate();
+            hsp.setData(new Score().getTopFive());
+            mainFrame.add(hsp.getHSPanel());
+            mainFrame.revalidate();
 
         } else if (str.equals("Submit")) {
 
@@ -103,15 +121,14 @@ public class MainFrame extends JPanel implements ActionListener {
             }
 
         } else if (str.equals("back")) {
-            JF.remove(ipp.getHSPanel());
-            JF.repaint();
-            JF.revalidate();
-            JF.add(ip.getIntroPanel());
+            mainFrame.remove(hsp.getHSPanel());
+            mainFrame.repaint();
+            mainFrame.revalidate();
+            mainFrame.add(ip.getIntroPanel());
 
         }
 
         else if (str.equals("Quit"))
             mainFrame.setBackground(Color.blue);
     }
-
 }
