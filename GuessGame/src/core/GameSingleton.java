@@ -1,35 +1,35 @@
-package data;
+package core;
 
+import data.Stats;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 
 //Bill Pugh singleton
-public class Tools {
+public class GameSingleton {
     private RandomAccessFile javaQuestions;
     private RandomAccessFile javaAnswer;
     private RandomAccessFile javaOptions;
-    private String filePostfix="java";
+    private String filePostfix = "java";
 
     private static Stats gameStat;
-    
+
     public Stats getGameStat() {
         return gameStat;
     }
 
     public static void setGameStat(Stats gameStat) {
-        Tools.gameStat = gameStat;
+        GameSingleton.gameStat = gameStat;
     }
 
-    public void reAssign()
-    {
-        closeAll(); 
+    public void reAssign() {
+        closeAll();
 
-        String filepathJavaQuestions = System.getProperty("user.dir") + "/java/questions_"+filePostfix;
-        String filepathJavaOptions = System.getProperty("user.dir") + "/java/options_"+filePostfix;
-        String filepathJavaAnswers = System.getProperty("user.dir") + "/java/answers_"+filePostfix;
+        String filepathJavaQuestions = System.getProperty("user.dir") + "/java/questions_" + filePostfix;
+        String filepathJavaOptions = System.getProperty("user.dir") + "/java/options_" + filePostfix;
+        String filepathJavaAnswers = System.getProperty("user.dir") + "/java/answers_" + filePostfix;
 
         try {
-            
+
             javaQuestions = new RandomAccessFile(filepathJavaQuestions, "r");
             javaAnswer = new RandomAccessFile(filepathJavaAnswers, "r");
             javaOptions = new RandomAccessFile(filepathJavaOptions, "r");
@@ -40,10 +40,11 @@ public class Tools {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-   
+
     }
-    private Tools() {
-          
+
+    private GameSingleton() {
+
         reAssign();
     }
 
@@ -51,13 +52,13 @@ public class Tools {
         this.filePostfix = filePostfix;
     }
 
-    private static class ToolsHolder {
+    private static class SingletonHolder {
 
-        private static final Tools singleton = new Tools();
+        private static final GameSingleton singleton = new GameSingleton();
     }
 
-    public static Tools getInstance() {
-        return ToolsHolder.singleton;
+    public static GameSingleton getInstance() {
+        return SingletonHolder.singleton;
     }
 
     public RandomAccessFile getJavaQuestions() {
@@ -73,13 +74,15 @@ public class Tools {
         return javaOptions;
     }
 
-    public void closeAll()
-    {
+    public void closeAll() {
         try {
 
-            if(this.getJavaQuestions()!=null) this.getJavaQuestions().close();  
-            if(this.getJavaOptions()!=null) this.getJavaOptions().close();
-            if(this.getJavaAnswer()!=null) this.getJavaAnswer().close();
+            if (this.getJavaQuestions() != null)
+                this.getJavaQuestions().close();
+            if (this.getJavaOptions() != null)
+                this.getJavaOptions().close();
+            if (this.getJavaAnswer() != null)
+                this.getJavaAnswer().close();
         } catch (Exception e) {
             System.out.println(e);
         }
