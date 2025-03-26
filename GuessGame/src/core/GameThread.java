@@ -85,7 +85,10 @@ public class GameThread implements Runnable {
                 }
             }
         } catch (InterruptedException e) {
-            cm.leaveGameToMainMenu();
+            //System.out.println(Thread.currentThread().isInterrupted());
+
+            //cm.leaveGameToMainMenu();
+
         }
 
     }

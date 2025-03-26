@@ -20,14 +20,16 @@ public record Score() {
 
         for (int i = 0; i < returnTopFive.size(); i++) {
             // later here add name of gamer also.
-            multiObject[i] = new Object[3];
+            multiObject[i] = new Object[4];
 
             String[] splitData = returnTopFive.get(i + 1).split("----");
 
-            multiObject[i][0] = Level.findLevel(Float.parseFloat(splitData[0])).getUrl();
+            multiObject[i][0] = splitData[0];
 
-            multiObject[i][1] = splitData[0];
+            multiObject[i][1] = Level.findLevel(Float.parseFloat(splitData[0])).getUrl();
+
             multiObject[i][2] = splitData[1];
+            multiObject[i][3] = splitData[2];
 
         }
 
@@ -36,19 +38,19 @@ public record Score() {
 
     // idea is that every time new score is added
     // but returned first 5
-    public void evalueteTop(float score) {
+    public void evalueteTop(String name, float score) {
 
-        LocalTime myObj = LocalTime.now();
+        LocalTime local_time = LocalTime.now();
 
         if (inputHashpmap.isEmpty()) {
 
-            inputHashpmap.put(score, String.valueOf(score) + "----" + myObj.toString());
+            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time.toString() + "----" +name);
 
         }
 
         if (inputHashpmap.get(score) == null) {
 
-            inputHashpmap.put(score, String.valueOf(score) + "----" + myObj.toString());
+            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time.toString() + "----" +name);
 
         }
 

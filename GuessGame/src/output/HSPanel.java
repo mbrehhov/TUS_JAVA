@@ -26,7 +26,7 @@ public class HSPanel extends JPanel {
 
 
            columns = new String[] {
-            "level", "Id", "Name"
+            "name","level", "score", "time"
         };
         
          tableModel = new DefaultTableModel(data,columns);

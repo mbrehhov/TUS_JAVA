@@ -72,20 +72,29 @@ public class GameManager {
 
         }
     }
-
+    public synchronized String getName(float f)
+    {
+        return JOptionPane.showInputDialog(null, "you collected " + f + " points\n What is your name? ");
+    }
     public void leaveGameToMainMenu() {
+           
+        // String name = 
+         GameSingleton.getInstance().getGameStat().getTiming().stopLoop();
 
-        try {
-            // if(Tools.getInstance().getGameStat().getScore()!=0)
-            highScore.evalueteTop(GameSingleton.getInstance().getGameStat().getScore());
-            GameSingleton.getInstance().getGameStat().getTiming().stopLoop();
+
+
+         try {
             GameSingleton.getInstance().getGameStat().getChildThread().join();
 
-        } catch (InterruptedException e) {
-            // System.out.println( e);
-        }
-        Float f = GameSingleton.getInstance().getGameStat().getScore();
+            GameSingleton.getInstance().getGameStat().getChildThread().interrupt();
 
+        } catch (InterruptedException e) {
+            //joined
+        }
+         Float f = GameSingleton.getInstance().getGameStat().getScore();
+         highScore.evalueteTop(getName(f),f);
+
+        
         GameSingleton.getInstance().getGameStat().setTiming(null);
         GameSingleton.getInstance().getGameStat().setChildThread(null);
 
@@ -95,12 +104,10 @@ public class GameManager {
         gameFrame.getMainFrame().remove(gameFrame.getGp().getMainp());
         gameFrame.getMainFrame().add(gameFrame.getIp().getIntroPanel());
         gameFrame.getMainFrame().repaint();
+        gameFrame.getMainFrame().revalidate();
 
         //JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
-        String name = JOptionPane.showInputDialog(null, "you collected " + f + " points\n What is your name? ");
-            //push the name into data 
-            //and user entity
-            //idea is to use hash to search for this user
+           
     }
 
     public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel) {
