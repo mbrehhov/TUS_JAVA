@@ -21,7 +21,7 @@ public class HSPanel extends JPanel {
         inPanel = new JPanel(new FlowLayout());
         data = new Object[0][0];
 
-        String imgPath = System.getProperty("user.dir") + "/img/Hearth.png";
+       // String imgPath = System.getProperty("user.dir") + "/img/Hearth.png";
        // inPanel.add(new JLabel(new ImageIcon(imgPath)));
 
 

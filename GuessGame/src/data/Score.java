@@ -52,14 +52,14 @@ public record Score() {
 
         }
 
-        List<Float> arr = new ArrayList<>(inputHashpmap.keySet());
-
-        arr.sort(Comparator.reverseOrder());
-
-        // extract all floats into array
+         // extract all floats into array
         // use method Arrays.sort
+       
+        List<Float> arr = new ArrayList<>(inputHashpmap.keySet());
+         arr.sort(Comparator.reverseOrder());
+
         // make new top 5 hashmap from previous list, extract data from inputHashpmap
-        // into new hasmap
+        // into new hasmap where index is place (ex. 1 - first place, 2 - second place..etc)
 
         // generate top 5
         for (int i = 1; i <= arr.size(); i++) { // just to be safe if there are less than 5 records

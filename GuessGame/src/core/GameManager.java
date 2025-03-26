@@ -1,9 +1,11 @@
 package core;
 
+import data.Question;
 import data.Quiz;
 import data.Score;
 import data.Stats;
 import entry.GameFrame;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.swing.JLabel;
@@ -13,6 +15,8 @@ import javax.swing.JTextArea;
 
 public class GameManager {
     GameFrame gameFrame;
+
+    List<Question> questionStack = new ArrayList<>();
     public GameManager(GameFrame gameFrame)
     {
         this.gameFrame = gameFrame;
@@ -21,16 +25,39 @@ public class GameManager {
 
     public void getQuestionOption(Quiz quiz) {
         try {
+            
+        
+            
             String question = quiz.readFile(-1, GameSingleton.getInstance().getJavaQuestions());
             int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here
                                                                                          // later
             String options = quiz.readFile(linenr, GameSingleton.getInstance().getJavaOptions());
 
+            Question newQuestion = new Question(question, splitOptions(options)) ;
+               
+            while(isInQuestionStack(newQuestion))
+            {
+                quiz = new Quiz();
+
+                question = quiz.readFile(-1, GameSingleton.getInstance().getJavaQuestions());
+                linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here
+                                                                                             // later
+                options = quiz.readFile(linenr, GameSingleton.getInstance().getJavaOptions());
+    
+                newQuestion = new Question(question, splitOptions(options)) ;
+                
+            }
+            addToQuestionStack(newQuestion);
+            
+            
             String correctAnswer = quiz.readFile(linenr, GameSingleton.getInstance().getJavaAnswer());
 
             GameSingleton.getInstance().getGameStat().getJTextArea().setText(question);
 
-            splitPopulateOptions(options);
+            
+            
+            
+            populateOptions(options);
 
             GameSingleton.getInstance().getGameStat()
                     .setQuestionInProcess(question);
@@ -69,8 +96,11 @@ public class GameManager {
         gameFrame.getMainFrame().add(gameFrame.getIp().getIntroPanel());
         gameFrame.getMainFrame().repaint();
 
-        JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
-
+        //JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
+        String name = JOptionPane.showInputDialog(null, "you collected " + f + " points\n What is your name? ");
+            //push the name into data 
+            //and user entity
+            //idea is to use hash to search for this user
     }
 
     public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel) {
@@ -122,9 +152,13 @@ public class GameManager {
 
         }
     }
+    private String[] splitOptions(String options)
+    {
+        return options.substring(options.indexOf("#") + 1).split("#");
+    }
 
-    private void splitPopulateOptions(String options) {
-        String[] splittingOptions = options.substring(options.indexOf("#") + 1).split("#");
+    private void populateOptions(String options) {
+        String[] splittingOptions = splitOptions(options);
 
         int counter = 0;
         for (JRadioButton radioBtn : GameSingleton.getInstance().getGameStat().getOptions()) {
@@ -149,4 +183,34 @@ public class GameManager {
         }
 
     }
+
+
+    // if new question  is not in the question stack it can be used for user
+    public void addToQuestionStack(Question question)
+    {
+        
+        if(questionStack.size()==10)
+        {
+            questionStack.removeFirst();
+        }
+
+        questionStack.add(question);        
+        // if question rached the limit, remove last one. 
+
+    }
+
+    public boolean isInQuestionStack(Question q)
+    {
+        for (Question question : questionStack) {
+            if(question.equals(q))
+            {
+                return true;
+            }
+        }
+      
+        return false;
+    }
+
+
+
 }

@@ -5,12 +5,9 @@ import java.util.List;
 import javax.swing.JLabel;
 
 /**
- * # Timing class Example
- *
- * This is a **childThread** .
- *
- * - counts Time
- * - prints new questions
+ * # GameThread class
+ * is a **childThread** ,controls Time
+ *  deducts player 'live' & fire new questions. 
  */
 public class GameThread implements Runnable {
     private volatile boolean looping = true;
