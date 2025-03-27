@@ -1,5 +1,0 @@
-1#A - Similar to assembler #B Combining a number of (weak models) to obtain a stronger model
-2#A - take the majority class #B take the minority class #C take average of the class
-3#A - predicts ensemble coeficent #B takes the average of the predicted values
-4#A - each model contribution is weighted #B each attribute contribution is weighted
-5#A - Yes, #B - No
