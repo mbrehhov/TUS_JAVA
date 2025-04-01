@@ -32,8 +32,8 @@ public class HSPanel extends JPanel {
          tableModel = new DefaultTableModel(data,columns);
         //create table with data
         table = new JTable(tableModel);
-        
-
+        table.setSize(80, 20);
+       
         //button1 = new JButton("new");
         JButton b  = new JButton("back");
         //button1.addActionListener(mainFrame);

@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
 
 //Bill Pugh singleton
 public class GameSingleton {
+
     private RandomAccessFile javaQuestions;
     private RandomAccessFile javaAnswer;
     private RandomAccessFile javaOptions;
@@ -77,12 +78,15 @@ public class GameSingleton {
     public void closeAll() {
         try {
 
-            if (this.getJavaQuestions() != null)
+            if (this.getJavaQuestions() != null) {
                 this.getJavaQuestions().close();
-            if (this.getJavaOptions() != null)
+            }
+            if (this.getJavaOptions() != null) {
                 this.getJavaOptions().close();
-            if (this.getJavaAnswer() != null)
+            }
+            if (this.getJavaAnswer() != null) {
                 this.getJavaAnswer().close();
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

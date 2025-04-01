@@ -74,7 +74,6 @@ public class GameThread implements Runnable {
                 }
                 if (looping) {
                     GameSingleton.getInstance().getGameStat().setCurrentTime(String.valueOf(time));
-                    // cm.output(cm.getQuestionPage());
                 }
 
                 if (time >= 14) {
@@ -86,7 +85,6 @@ public class GameThread implements Runnable {
             }
         } catch (InterruptedException e) {
             //System.out.println(Thread.currentThread().isInterrupted());
-
             //cm.leaveGameToMainMenu();
 
         }

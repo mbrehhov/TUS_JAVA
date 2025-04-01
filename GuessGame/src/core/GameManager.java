@@ -14,49 +14,41 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 public class GameManager {
+
     GameFrame gameFrame;
 
     List<Question> questionStack = new ArrayList<>();
-    public GameManager(GameFrame gameFrame)
-    {
+
+    public GameManager(GameFrame gameFrame) {
         this.gameFrame = gameFrame;
     }
+
     private final Score highScore = new Score();
 
     public void getQuestionOption(Quiz quiz) {
         try {
-            
-        
-            
+
             String question = quiz.readFile(-1, GameSingleton.getInstance().getJavaQuestions());
-            int linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here
-                                                                                         // later
+            int linenr = Integer.parseInt(question.substring(0, question.indexOf('.')));
             String options = quiz.readFile(linenr, GameSingleton.getInstance().getJavaOptions());
 
-            Question newQuestion = new Question(question, splitOptions(options)) ;
-               
-            while(isInQuestionStack(newQuestion))
-            {
+            Question newQuestion = new Question(question, splitOptions(options));
+
+            while (isInQuestionStack(newQuestion)) {
                 quiz = new Quiz();
 
                 question = quiz.readFile(-1, GameSingleton.getInstance().getJavaQuestions());
-                linenr = Integer.parseInt(question.substring(0, question.indexOf('.'))); // add some validations here
-                                                                                             // later
+                linenr = Integer.parseInt(question.substring(0, question.indexOf('.')));
                 options = quiz.readFile(linenr, GameSingleton.getInstance().getJavaOptions());
-    
-                newQuestion = new Question(question, splitOptions(options)) ;
-                
+                newQuestion = new Question(question, splitOptions(options));
+
             }
             addToQuestionStack(newQuestion);
-            
-            
+
             String correctAnswer = quiz.readFile(linenr, GameSingleton.getInstance().getJavaAnswer());
 
             GameSingleton.getInstance().getGameStat().getJTextArea().setText(question);
 
-            
-            
-            
             populateOptions(options);
 
             GameSingleton.getInstance().getGameStat()
@@ -65,36 +57,31 @@ public class GameManager {
             GameSingleton.getInstance().getGameStat()
                     .setCurrentQuestionAnswer(correctAnswer.substring(correctAnswer.length() - 1));
 
-            // move(question, options);
-
         } catch (Exception e) {
-            // ignore at the moment
-
+            System.out.println(e.getMessage());
         }
     }
-    public synchronized String getName(float f)
-    {
+
+    public synchronized String getName(float f) {
         return JOptionPane.showInputDialog(null, "you collected " + f + " points\n What is your name? ");
     }
+
     public void leaveGameToMainMenu() {
-           
-        // String name = 
-         GameSingleton.getInstance().getGameStat().getTiming().stopLoop();
 
+        // String name =
+        GameSingleton.getInstance().getGameStat().getTiming().stopLoop();
 
-
-         try {
+        try {
             GameSingleton.getInstance().getGameStat().getChildThread().join();
 
             GameSingleton.getInstance().getGameStat().getChildThread().interrupt();
 
         } catch (InterruptedException e) {
-            //joined
+            // joined
         }
-         Float f = GameSingleton.getInstance().getGameStat().getScore();
-         highScore.evalueteTop(getName(f),f);
+        Float f = GameSingleton.getInstance().getGameStat().getScore();
+        highScore.evalueteTop(getName(f), f);
 
-        
         GameSingleton.getInstance().getGameStat().setTiming(null);
         GameSingleton.getInstance().getGameStat().setChildThread(null);
 
@@ -106,8 +93,8 @@ public class GameManager {
         gameFrame.getMainFrame().repaint();
         gameFrame.getMainFrame().revalidate();
 
-        //JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + " points");
-           
+        // JOptionPane.showMessageDialog(null, "Game Finished, you collected " + f + "
+        // points");
     }
 
     public void newGame(JTextArea questions, Set<JRadioButton> options, List<JLabel> hearts, JLabel timeLabel) {
@@ -141,8 +128,6 @@ public class GameManager {
         Stats stats = GameSingleton.getInstance().getGameStat();
 
         if (stats != null && stats.isQuestionsEnabled() == false) {
-
-            // tmp solution
             GameSingleton.getInstance().getGameStat().setAnswerSubmited(true);
             GameSingleton.getInstance().getGameStat().getTimeLabel().setText("");
 
@@ -159,8 +144,8 @@ public class GameManager {
 
         }
     }
-    private String[] splitOptions(String options)
-    {
+
+    private String[] splitOptions(String options) {
         return options.substring(options.indexOf("#") + 1).split("#");
     }
 
@@ -179,7 +164,6 @@ public class GameManager {
                 radioBtn.setName(splittingOptions[counter].substring(0, 1));
 
             } catch (Exception e) {
-                // bad approach - change later
                 if (radioBtn.isEnabled()) {
                     radioBtn.setEnabled(false);
                     radioBtn.setName(null);
@@ -191,33 +175,23 @@ public class GameManager {
 
     }
 
+    // if new question is not in the question stack it can be used for user
+    public void addToQuestionStack(Question question) {
 
-    // if new question  is not in the question stack it can be used for user
-    public void addToQuestionStack(Question question)
-    {
-        
-        if(questionStack.size()==10)
-        {
+        if (questionStack.size() == 10) {
             questionStack.removeFirst();
         }
-
-        questionStack.add(question);        
-        // if question rached the limit, remove last one. 
+        questionStack.add(question);
 
     }
 
-    public boolean isInQuestionStack(Question q)
-    {
+    public boolean isInQuestionStack(Question q) {
         for (Question question : questionStack) {
-            if(question.equals(q))
-            {
+            if (question.equals(q)) {
                 return true;
             }
         }
-      
+
         return false;
     }
-
-
-
 }
