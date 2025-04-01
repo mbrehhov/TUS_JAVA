@@ -15,7 +15,7 @@ import output.HSPanel;
 import output.IntroPanel;
 
 public class GameFrame extends JPanel implements ActionListener {
-  
+
     private GameManager cm = null;
     private JFrame mainFrame = null;
     private GamePanel gp = null;
@@ -55,7 +55,7 @@ public class GameFrame extends JPanel implements ActionListener {
     }
 
     public void refresh() {
-        
+
         mainFrame.revalidate();
         mainFrame.repaint();
     }
@@ -69,17 +69,20 @@ public class GameFrame extends JPanel implements ActionListener {
         mainFrame.setSize(800, 600);
         mainFrame.setResizable(false);
         mainFrame.add(ip.getIntroPanel());
-        
+
         GuessGameWindAdaptor gAdp = new GuessGameWindAdaptor(this);
         mainFrame.addWindowListener(gAdp);
         mainFrame.setVisible(true);
     }
 
     class GuessGameWindAdaptor extends WindowAdapter {
+
         GameFrame f;
+
         public GuessGameWindAdaptor(GameFrame f) {
             this.f = f;
         }
+
         @Override
         public void windowClosing(WindowEvent we) {
             f.setVisible(false);
@@ -96,7 +99,6 @@ public class GameFrame extends JPanel implements ActionListener {
             mainFrame.repaint();
             mainFrame.revalidate();
             mainFrame.add(gp.getMainp());
-            // JF.repaint();
             mainFrame.revalidate();
             cm = new GameManager(this);
             cm.newGame(gp.getjTextAreaQuestions(), gp.getOptions(), gp.getHearts(), gp.getTimeLabel());
@@ -126,9 +128,8 @@ public class GameFrame extends JPanel implements ActionListener {
             mainFrame.revalidate();
             mainFrame.add(ip.getIntroPanel());
 
-        }
-
-        else if (str.equals("Quit"))
+        } else if (str.equals("Quit")) {
             mainFrame.setBackground(Color.blue);
+        }
     }
 }
