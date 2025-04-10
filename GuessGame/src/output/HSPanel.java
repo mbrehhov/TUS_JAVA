@@ -8,11 +8,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class HSPanel extends JPanel {
-    DefaultTableModel tableModel ;
+
+    DefaultTableModel tableModel;
     JPanel inPanel;
     String[] columns;
-    Object[][] data; 
+    Object[][] data;
     JTable table = null;
+
     public JPanel getHSPanel() {
         return inPanel;
     }
@@ -21,25 +23,23 @@ public class HSPanel extends JPanel {
         inPanel = new JPanel(new FlowLayout());
         data = new Object[0][0];
 
-       // String imgPath = System.getProperty("user.dir") + "/img/Hearth.png";
-       // inPanel.add(new JLabel(new ImageIcon(imgPath)));
-
-
-           columns = new String[] {
-            "name","level", "score", "time"
+        // String imgPath = System.getProperty("user.dir") + "/img/Hearth.png";
+        // inPanel.add(new JLabel(new ImageIcon(imgPath)));
+        columns = new String[]{
+            "name", "level", "score", "time"
         };
-        
-         tableModel = new DefaultTableModel(data,columns);
+
+        tableModel = new DefaultTableModel(data, columns);
         //create table with data
         table = new JTable(tableModel);
         table.setSize(80, 20);
-       
+
         //button1 = new JButton("new");
-        JButton b  = new JButton("back");
+        JButton b = new JButton("back");
         //button1.addActionListener(mainFrame);
         b.addActionListener(mainFrame);
         inPanel.add(table);
-        
+
         inPanel.add(b);
     }
 
@@ -50,7 +50,7 @@ public class HSPanel extends JPanel {
         table.updateUI();
         table.revalidate();
         table.repaint();
-      
+
     }
 
 }

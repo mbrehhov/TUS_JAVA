@@ -113,7 +113,6 @@ public class GamePanel {
         button2.addActionListener(mainFrame);
 
         // panel3.add(button1);
-
         jTextAreaQuestions.setEditable(false);
         panel3.add(timeLabel);
 

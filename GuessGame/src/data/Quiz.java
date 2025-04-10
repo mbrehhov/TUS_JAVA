@@ -22,7 +22,7 @@ public class Quiz implements Imainfunct {
         return function.readFile(lineNr, f);
     }
 
-    public Imainfunct getLambda() {
+    private Imainfunct getLambda() {
         return (k, l) -> readLineFromFile(k, l);
     }
 

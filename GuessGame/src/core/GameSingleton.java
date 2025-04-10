@@ -60,7 +60,7 @@ public class GameSingleton {
 
     public static GameSingleton getInstance() {
         return SingletonHolder.singleton;
-    }
+    } 
 
     public RandomAccessFile getJavaQuestions() {
 

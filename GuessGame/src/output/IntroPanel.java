@@ -10,44 +10,36 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class IntroPanel extends JPanel {
-   
-    JPanel introPanel;      
-    
-   
+
+    JPanel introPanel;
+
     public JPanel getIntroPanel() {
         return introPanel;
     }
 
-
     public IntroPanel(GameFrame mainFrame) {
         introPanel = new JPanel(new BorderLayout());
 
+        JButton button = new JButton("new game");
+        button.setBackground(Color.blue);
+        button.setForeground(Color.white);
 
-        
-      JButton button = new JButton("new game");
-      button.setBackground(Color.blue);
-      button.setForeground(Color.white);
-    
-      button.addActionListener(mainFrame);
+        button.addActionListener(mainFrame);
 
+        JButton score = new JButton("High Score");
+        button.setBackground(Color.blue);
+        button.setForeground(Color.BLACK);
+        score.addActionListener(mainFrame);
 
-      JButton score = new JButton("High Score");
-      button.setBackground(Color.blue);
-      button.setForeground(Color.BLACK);
-      score.addActionListener(mainFrame);
+        JPanel bottomPanel = new JPanel(new FlowLayout());
+        bottomPanel.add(score, BorderLayout.CENTER);
 
-
-      JPanel bottomPanel = new JPanel(new FlowLayout());
-      bottomPanel.add(score, BorderLayout.CENTER);
-
-      bottomPanel.add(button);
-      introPanel.add(bottomPanel, BorderLayout.PAGE_END);
-
+        bottomPanel.add(button);
+        introPanel.add(bottomPanel, BorderLayout.PAGE_END);
 
         String imgPath = System.getProperty("user.dir") + "/img/TUS.png";
         introPanel.add(new JLabel(new ImageIcon(imgPath)));
-     
-     
+
     }
 
 }

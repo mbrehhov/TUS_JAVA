@@ -8,9 +8,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 //this object helps to keep track of state of certain variables during game, like lives, enableQuestions..etc 
-
 // object itelf should be kept within singleton class and called to update stats
-
 public class Stats {
 
     private float score;

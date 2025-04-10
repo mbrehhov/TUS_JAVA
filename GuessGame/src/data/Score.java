@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Score {
+public record Score() {
 
     private static HashMap<Float, String> inputHashpmap = new HashMap<Float, String>(); // unorderd everything
     private static HashMap<Integer, String> returnTopFive = new HashMap<Integer, String>(); // ordered everything
@@ -18,18 +18,17 @@ public class Score {
         AtomicInteger index = new AtomicInteger(1);
 
         List<Float> arr = new ArrayList<>(inputHashpmap.keySet());
-         arr.sort(Comparator.reverseOrder());
+        arr.sort(Comparator.reverseOrder());
 
-          arr.stream()
-         .limit(5)
-         .forEach( (n) -> {
-            returnTopFive.put(index.getAndIncrement(), inputHashpmap.get(n));
-        } );
+        arr.stream()
+                .limit(5)
+                .forEach((n) -> {
+                    returnTopFive.put(index.getAndIncrement(), inputHashpmap.get(n));
+                });
 
-        
-       
-        if (returnTopFive.isEmpty())
+        if (returnTopFive.isEmpty()) {
             return null;
+        }
 
         Object[][] multiObject = new Object[returnTopFive.size()][];
 
@@ -47,26 +46,20 @@ public class Score {
         return multiObject;
     }
 
-  
     public void evalueteTop(String name, float score) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalTime time = LocalTime.now();
         String local_time = formatter.format(time);
 
-
         if (inputHashpmap.isEmpty()) {
 
-            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time + "----" +name);
+            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time + "----" + name);
 
         }
-
         if (inputHashpmap.get(score) == null) {
 
-            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time + "----" +name);
-
+            inputHashpmap.put(score, String.valueOf(score) + "----" + local_time + "----" + name);
         }
-
     }
-
 }
