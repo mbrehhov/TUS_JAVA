@@ -1,18 +1,22 @@
 package data;
 
+import core.GameThread;
+import java.util.List;
 import java.util.Set;
+import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 //this object helps to keep track of state of certain variables during game, like lives, enableQuestions..etc 
-
 // object itelf should be kept within singleton class and called to update stats
-
 public class Stats {
+
     private float score;
     private String questionInProcess;
     private Set<JRadioButton> options;
-    
+    private List<JLabel> hearts;
+    private JLabel timeLabel;
+    private boolean answerSubmited; //
 
     public String getQuestionInProcess() {
         return questionInProcess;
@@ -21,13 +25,14 @@ public class Stats {
     public void setQuestionInProcess(String questionInProcess) {
         this.questionInProcess = questionInProcess;
     }
+
     private JTextArea jTextArea;
     private String currentQuestionAnswer;
     private String currentTime;
     private boolean questionsEnabled;
     private int lives = 3;
     private Thread childThread;
-    private Timing timing;
+    private GameThread timing;
 
     public float getScore() {
         return score;
@@ -37,11 +42,11 @@ public class Stats {
         this.score = score;
     }
 
-    public Timing getTiming() {
+    public GameThread getTiming() {
         return timing;
     }
 
-    public void setTiming(Timing timing) {
+    public void setTiming(GameThread timing) {
         this.timing = timing;
     }
 
@@ -99,6 +104,30 @@ public class Stats {
 
     public void setOptions(Set<JRadioButton> options) {
         this.options = options;
+    }
+
+    public List<JLabel> getHearts() {
+        return hearts;
+    }
+
+    public void setHearts(List<JLabel> hearts) {
+        this.hearts = hearts;
+    }
+
+    public JLabel getTimeLabel() {
+        return timeLabel;
+    }
+
+    public void setTimeLabel(JLabel timeLabel) {
+        this.timeLabel = timeLabel;
+    }
+
+    public boolean isAnswerSubmited() {
+        return answerSubmited;
+    }
+
+    public void setAnswerSubmited(boolean answerSubmited) {
+        this.answerSubmited = answerSubmited;
     }
 
 }
